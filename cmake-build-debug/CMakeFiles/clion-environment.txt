@@ -1,4 +1,0 @@
-ToolSet: w64 5.0 (local)@C:\Users\yuyuan\Desktop\MutiCpp\x86_64-6.4.0-release-win32-seh-rt_v5-rev0\mingw64
-Options: 
-
-Options:-DCMAKE_MAKE_PROGRAM=C:/Users/yuyuan/AppData/Local/JetBrains/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe
