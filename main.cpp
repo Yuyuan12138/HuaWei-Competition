@@ -6,24 +6,24 @@ const int robot_num = 10;
 const int berth_num = 10;
 const int N = 210;
 
-struct Robot
+struct Robot                    // 机器人
 {
     int x, y, goods;
-    int status;
+    int status;                 // 状态
     int mbx, mby;
     Robot() {}
     Robot(int startX, int startY) {
         x = startX;
         y = startY;
     }
-}robot[robot_num + 10], r;
+}robot[robot_num + 10];
 
-struct Berth
+struct Berth                    // 泊位
 {
     int x;
     int y;
-    int transport_time;
-    int loading_speed;
+    int transport_time;         // 到虚拟点的时间
+    int loading_speed;          // 每帧可装载的物品数
     Berth(){}
     Berth(int x, int y, int transport_time, int loading_speed) {
         this -> x = x;
@@ -31,16 +31,20 @@ struct Berth
         this -> transport_time = transport_time;
         this -> loading_speed = loading_speed;
     }
-}berth[berth_num + 10];
+}berth[berth_num + 10], r;
 
-struct Boat
+struct Boat                     // 轮船
 {
-    int num, pos, status;
+    int num;
+    int pos;                    // 位于的泊位编号（-1为虚拟点）
+    int status;                 // 状态：0占用、1装货/运输完成、2等待
 }boat[10];
 
-int money, boat_capacity, id;
-char ch[N][N];
-int gds[N][N];
+int money;                      // 当前金钱数
+int boat_capacity;              // 船的容积
+int id;                         // 帧序号
+char ch[N][N];                  // 地图
+int gds[N][N];                  // 货物列表
 void Init()
 {
     for(int i = 1; i <= n; i ++)
@@ -70,8 +74,7 @@ int Input()
     }
     for(int i = 0; i < robot_num; i ++)
     {
-        int sts;
-        scanf("%d%d%d%d", &robot[i].goods, &robot[i].x, &robot[i].y, &sts);
+        scanf("%d%d%d%d", &robot[i].goods, &robot[i].x, &robot[i].y, &robot[i].status);
     }
     for(int i = 0; i < 5; i ++)
         scanf("%d%d\n", &boat[i].status, &boat[i].pos);
@@ -79,6 +82,8 @@ int Input()
     scanf("%s", okk);
     return id;
 }
+
+
 
 int main()
 {
