@@ -1,0 +1,8 @@
+//
+// Created by yuyuan on 2024/3/7.
+//
+
+#ifndef CODECRAFTSDK__STASTIC_HEADER_H
+#define CODECRAFTSDK__STASTIC_HEADER_H
+
+#endif //CODECRAFTSDK__STASTIC_HEADER_H
