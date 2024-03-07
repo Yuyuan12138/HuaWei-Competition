@@ -16,7 +16,7 @@ struct Robot                    // 机器人
         x = startX;
         y = startY;
     }
-}robot[robot_num + 10];
+}robot[robot_num + 10], rr;
 
 struct Berth                    // 泊位
 {
