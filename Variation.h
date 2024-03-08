@@ -6,5 +6,6 @@
 #define CODECRAFTSDK_VARIATION_H
 
 inline int money, id;
+inline int now;             /* 当前全局时间戳 */
 
 #endif //CODECRAFTSDK_VARIATION_H
