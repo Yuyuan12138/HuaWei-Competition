@@ -19,5 +19,5 @@ struct Berth                    // 港口结构体
         this -> loading_speed = loading_speed;
     }
 };
-extern Berth berth[berth_num + 10];
+inline Berth berth[berth_num + 10];
 #endif //CODECRAFTSDK_BERTH_H

@@ -3,5 +3,3 @@
 //
 
 #include "Robot.h"
-
-Robot robot[robot_num + 10];

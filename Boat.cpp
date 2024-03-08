@@ -3,5 +3,3 @@
 //
 
 #include "Boat.h"
-
-Boat boat[10];

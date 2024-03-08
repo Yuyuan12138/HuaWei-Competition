@@ -4,5 +4,7 @@
 
 #ifndef CODECRAFTSDK_VARIATION_H
 #define CODECRAFTSDK_VARIATION_H
+
 inline int money, id;
+
 #endif //CODECRAFTSDK_VARIATION_H

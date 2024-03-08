@@ -3,5 +3,3 @@
 //
 
 #include "Berth.h"
-
-Berth berth[berth_num + 10];

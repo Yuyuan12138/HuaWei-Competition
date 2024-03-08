@@ -14,5 +14,5 @@ struct Boat
     int status;                 // 船的状态
 };
 
-extern Boat boat[10];
+inline Boat boat[10];
 #endif //CODECRAFTSDK_BOAT_H
