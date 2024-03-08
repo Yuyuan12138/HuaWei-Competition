@@ -4,5 +4,5 @@
 
 #ifndef CODECRAFTSDK_VARIATION_H
 #define CODECRAFTSDK_VARIATION_H
-inline int money, boat_capacity, id;
+inline int money, id;
 #endif //CODECRAFTSDK_VARIATION_H

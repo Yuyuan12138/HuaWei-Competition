@@ -1,6 +1,7 @@
 #include "main.h"
 using namespace std;
 
+/* 程序主函数 */
 int main()
 {
     Init();

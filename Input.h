@@ -7,7 +7,6 @@
 #include <bits/stdc++.h>
 #include "Variation.h"
 #include "Constants.h"
-#include "Array.h"
 #include "Robot.h"
 #include "Boat.h"
 int Input();
