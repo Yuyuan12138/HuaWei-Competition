@@ -21,3 +21,11 @@ struct Robot{
 inline Robot robots[robot_num + 10];
 
 #endif //CODECRAFTSDK_ROBOT_H
+/**
+ *  Why I code this program has been forgotten. If you want to optimize my code.
+ *  I advice you not to do that.
+ *  It works, that's ok.
+ *  Only me and the God know the reason.
+ *  And know only the God.
+ *  xD
+ * */
