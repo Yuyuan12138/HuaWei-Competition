@@ -1,7 +1,8 @@
 //
-// Created by yuyuan on 2024/3/7.
+// Created by Yuyuan12138 on 2024/3/8.
 //
-#include "_init_header.h"
+
+#include "Init.h"
 
 void Init()
 {

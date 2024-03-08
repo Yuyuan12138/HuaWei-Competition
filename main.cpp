@@ -1,7 +1,5 @@
-#include <bits/stdc++.h>
+#include "main.h"
 using namespace std;
-
-#include "service/service_header.h"
 
 int main()
 {
