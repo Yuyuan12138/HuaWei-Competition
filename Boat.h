@@ -5,8 +5,14 @@
 #ifndef CODECRAFTSDK_BOAT_H
 #define CODECRAFTSDK_BOAT_H
 
-inline int boat_capacity;       // 船承载的货物容量
 
+
+inline int boat_capacity;       /// 船承载的货物容量
+
+
+/**
+ * @brief 船结构体
+ * */
 struct Boat
 {
     int num;

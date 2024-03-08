@@ -6,7 +6,12 @@
 #define CODECRAFTSDK_CONSTANTS_H
 
 inline constexpr int n = 200;
+<<<<<<< HEAD
 inline constexpr int robot_num = 10;        // 机器人最大容量
 inline constexpr int berth_num = 10;        // 港口最大容量
 
+=======
+inline constexpr int robot_num = 10;        /** 机器人最大容量 */
+inline constexpr int berth_num = 10;        /** 港口最大容量 */
+>>>>>>> wrj
 #endif //CODECRAFTSDK_CONSTANTS_H
