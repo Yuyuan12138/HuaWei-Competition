@@ -12,7 +12,5 @@ struct Boat
     int num;
     int pos;                    // 船当前所在港口
     int status;                 // 船的状态
-};
-
-inline Boat boat[10];
+} inline boat[10];
 #endif //CODECRAFTSDK_BOAT_H
