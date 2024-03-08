@@ -8,8 +8,9 @@
 #include "Constants.h"
 
 struct Robot{
-    int x, y, goods;
-    int status;
+    int x, y;           // 当前坐标
+    bool goods;         // 是否携带货物
+    int status;         // 状态：0恢复状态，1正常运行状态
     int mbx, mby;
     Robot() {}
     Robot(int startX, int startY) {
@@ -17,6 +18,6 @@ struct Robot{
         y = startY;
     }
 };
-inline Robot robot[robot_num + 10];
+inline Robot robots[robot_num + 10];
 
 #endif //CODECRAFTSDK_ROBOT_H

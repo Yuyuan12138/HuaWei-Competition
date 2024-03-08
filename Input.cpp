@@ -17,7 +17,7 @@ int Input()
     for(int i = 0; i < robot_num; i ++)
     {
         int sts;
-        scanf("%d%d%d%d", &robot[i].goods, &robot[i].x, &robot[i].y, &sts);
+        scanf("%d%d%d%d", &robots[i].goods, &robots[i].x, &robots[i].y, &sts);
     }
     for(int i = 0; i < 5; i ++)
         scanf("%d%d\n", &boat[i].status, &boat[i].pos);

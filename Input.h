@@ -12,7 +12,7 @@
 /**
  * @brief 输入程序
  * @param none
- * @return ID
+ * @return 得到输入的时间戳
  * */
 int Input();
 #endif //CODECRAFTSDK_INPUT_H

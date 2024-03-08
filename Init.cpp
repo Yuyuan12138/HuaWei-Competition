@@ -13,7 +13,7 @@ void Init()
     {
         int id;
         scanf("%d", &id);
-        scanf("%d%d%d%d", &berth[id].x, &berth[id].y, &berth[id].transport_time, &berth[id].loading_speed);
+        scanf("%d%d%d%d", &berths[id].x, &berths[id].y, &berths[id].transport_time, &berths[id].loading_speed);
     }
     scanf("%d", &boat_capacity);
     char okk[100];

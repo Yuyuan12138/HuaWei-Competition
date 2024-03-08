@@ -22,5 +22,5 @@ struct Berth
         this -> transport_time = transport_time;
         this -> loading_speed = loading_speed;
     }
-} inline berth[berth_num + 10];
+} inline berths[berth_num + 10];
 #endif //CODECRAFTSDK_BERTH_H
