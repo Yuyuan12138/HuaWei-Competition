@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Robot.h"
 #include "Goods.h"
+#include "Berth.h"
 
 inline std::vector<int> robot_list_by_area[MAX_AREAS];
 inline std::vector<int> berth_list_by_area[MAX_AREAS];

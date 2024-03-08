@@ -29,4 +29,9 @@ void split_areas() {
         int area = area_id[robot.x][robot.y];
         robot_list_by_area[area].push_back(i);
     }
+    for(int i = 0; i < berth_num; i++) {
+        Berth& berth = berths[i];
+        int area = area_id[berth.x][berth.y];
+        berth_list_by_area[area].push_back(i);
+    }
 }
