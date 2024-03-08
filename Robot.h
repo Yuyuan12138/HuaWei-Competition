@@ -17,6 +17,11 @@ struct Robot{
         y = startY;
     }
 };
+<<<<<<< HEAD
 inline Robot robot[robot_num + 10];
+=======
+
+extern Robot robot[robot_num + 10];
+>>>>>>> wrj
 
 #endif //CODECRAFTSDK_ROBOT_H

@@ -9,5 +9,10 @@
 #include "Constants.h"
 #include "Robot.h"
 #include "Boat.h"
+/**
+ * @brief 输入程序
+ * @param none
+ * @return ID
+ * */
 int Input();
 #endif //CODECRAFTSDK_INPUT_H
