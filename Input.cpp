@@ -25,7 +25,7 @@ template<typename T> void read(T& x) {
 
 /**
  * @brief 向标准输出快速写入一个整数
- * @param[out] x 要写入的变量
+ * @param[in] x 要写入的变量
 */
 template<typename T> void write(T x) {
     if (x < 0) {
