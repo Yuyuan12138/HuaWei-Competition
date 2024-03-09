@@ -9,11 +9,16 @@
 #include "Constants.h"
 #include "Robot.h"
 #include "Boat.h"
+<<<<<<< Updated upstream
 #include "fastio.h"
+=======
+
+>>>>>>> Stashed changes
 /**
  * @brief 输入程序
  * @param none
- * @return 得到输入的时间戳
+ * @return 得到输入的z帧序号
  * */
 int Input();
+
 #endif //CODECRAFTSDK_INPUT_H
