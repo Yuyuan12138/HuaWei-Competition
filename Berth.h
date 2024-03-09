@@ -15,6 +15,7 @@ struct Berth
     int y;                      /*! 港口y坐标 */
     int transport_time;         /*! 港口到虚拟点的时间 */
     int loading_speed;          /*! 每帧可以装载的物品数量 */
+    int area;                   /*! 港口所属的连通块编号*/
     Berth(){}
     Berth(int x, int y, int transport_time, int loading_speed) {
         this -> x = x;
