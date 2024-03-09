@@ -8,5 +8,6 @@
 #include "Input.h"
 #include "Init.h"
 #include "Constants.h"
+#include "Output.h"
 
 #endif //CODECRAFTSDK_MAIN_H
