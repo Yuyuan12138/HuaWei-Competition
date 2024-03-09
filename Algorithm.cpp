@@ -42,7 +42,10 @@ void split_areas() {
 
 struct StateRobot {
     int x, y;
-    int step;  
+    int step;
+    bool operator<(const StateRobot& rhs) const {
+        return step > rhs.step;
+    }
 };
 
 int find_berth_for_robot(int robot_id) {

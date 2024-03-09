@@ -9,11 +9,8 @@
 #include "Constants.h"
 #include "Robot.h"
 #include "Boat.h"
-<<<<<<< Updated upstream
 #include "fastio.h"
-=======
 
->>>>>>> Stashed changes
 /**
  * @brief 输入程序
  * @param none
