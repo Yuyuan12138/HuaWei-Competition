@@ -12,11 +12,12 @@ int main()
 //            printf("move %d %d\n", i, rand() % 4);
 //        puts("OK");
 //        fflush(stdout);
-        Robots_command r{};
-        r.command = 1;
-        r.robot_id = 1;
+        Robots_command r;
         for(int i = 0; i < robot_num; i++)
         {
+            r.command = 0;
+            r.direction = 0;
+            r.robot_id = i % 5;
             robotsCommand.push_back(r);
         }
         output();
