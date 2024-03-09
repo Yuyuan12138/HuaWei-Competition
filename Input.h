@@ -9,6 +9,7 @@
 #include "Constants.h"
 #include "Robot.h"
 #include "Boat.h"
+#include "fastio.h"
 /**
  * @brief 输入程序
  * @param none
