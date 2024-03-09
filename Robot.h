@@ -9,7 +9,7 @@
 
 struct Robot{
     int x, y;           // 当前坐标
-    bool goods;         // 是否携带货物
+    int goods;          // 是否携带货物
     int status;         // 状态：0恢复状态，1正常运行状态
     int mbx, mby;
     Robot() {}

@@ -11,13 +11,17 @@
 #include "Goods.h"
 #include "Berth.h"
 
-inline std::vector<int> robot_list_by_area[MAX_AREAS];
-inline std::vector<int> berth_list_by_area[MAX_AREAS];
-
 /**
- * @brief 程序开始时进行dfs，将地图划分为若干块
+ * @brief 初始化结束后进行dfs，将地图划分为若干块
+ * @return 无返回值，但会修改robot_list_by_area, berth_list_by_area, area_id三个变量
 */
 void split_areas();
 
+/**
+ * @brief 给定机器人编号，选取距离其最近的港口编号
+ * @param[in] robot_id 机器人编号
+ * @return 选取的港口编号。同时记录当前机器人的路径至passing_time变量
+*/
+int find_berth_for_robot(int robot_id);
 
 #endif

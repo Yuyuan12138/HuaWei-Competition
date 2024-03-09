@@ -24,14 +24,18 @@ void split_areas() {
             area_idx++;
         }
     }
-    for(int i = 0; i < robot_num; i++) {
+    for(int i = 0; i < robot_num; i++) {            // 标记每个机器人的区域号
         Robot& robot = robots[i];
         int area = area_id[robot.x][robot.y];
         robot_list_by_area[area].push_back(i);
     }
-    for(int i = 0; i < berth_num; i++) {
+    for(int i = 0; i < berth_num; i++) {            // 标记每个港口的区域号
         Berth& berth = berths[i];
         int area = area_id[berth.x][berth.y];
         berth_list_by_area[area].push_back(i);
     }
+}
+
+int find_berth_for_robot(int robot_id) {
+    
 }
