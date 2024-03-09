@@ -7,13 +7,13 @@
  * @brief 从标准输入快速读取一个整数
  * @param[out] x 要读入的变量
 */
-template<typename T> void read(T& x);
+template<typename T> void readint(T& x);
 
 
 /**
  * @brief 向标准输出快速写入一个整数
  * @param[in] x 要写入的变量
 */
-template<typename T> void write(T x);
+template<typename T> void writeint(T x);
 
 #endif

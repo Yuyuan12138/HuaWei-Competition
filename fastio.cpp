@@ -1,6 +1,6 @@
 #include "fastio.h"
 
-template<typename T> void read(T& x) {
+template<typename T> void readint(T& x) {
     int v = 0, w = 1;
     char ch = getchar();
     while (!isdigit(ch)) {
@@ -15,7 +15,7 @@ template<typename T> void read(T& x) {
     x = v * w;
 }
 
-template<typename T> void write(T x) {
+template<typename T> void writeint(T x) {
     if (x < 0) {
         putchar('-');
         write(-x);
