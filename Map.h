@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include <set>
+#include <vector>
 
 
 inline constexpr int N = 210;   /** 地图大小 */

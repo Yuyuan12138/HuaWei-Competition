@@ -6,7 +6,7 @@
 
 void output()
 {
-    for(auto &x: operation)
+    for(auto &x: operations)
     {
         /// 机器人控制
         if(x.objector == 0)
@@ -38,7 +38,7 @@ void output()
             }
         }
     }
-    operation.clear();
+    operations.clear();
 
     puts("OK");
     fflush(stdout);

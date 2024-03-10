@@ -14,7 +14,7 @@ int main()
             op.command = 0;
             op.optionArg = 0;
             op.id = i % 5;
-            operation.push_back(op);
+            operations.push_back(op);
         }
         output();
     }
