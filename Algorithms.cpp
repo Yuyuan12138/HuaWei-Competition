@@ -1,8 +1,9 @@
 #include "Algorithms.h"
 using namespace std;
 
-int to[5][2] = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}, {0, 0}};
-int from[N][N];                     // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
+int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
+int next_move[N][N];                        // 每一个点决定向下移动的方向
+Point from[N][N];                           // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
 bool visited[N][N], step[N][N];
 
 void split_areas_dfs(int x, int y, int area_idx) {
@@ -56,10 +57,11 @@ struct StateRobot {
     }
 };
 
-/// @brief 
-/// @param robot_id 机器人编号
-/// @return 选择到的货物编号
-int find_good_for_robot(int robot_id) {
+/// @brief 为每个机器人寻找距离其最近的货物，同时更新passing_time变量，记录碰撞数据
+/// @param[in] robot_id 机器人编号
+/// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
+/// @return 选择的货物坐标
+Point find_good_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0, sizeof(step));
 
@@ -80,12 +82,37 @@ int find_good_for_robot(int robot_id) {
             if(visited[dx][dy]) continue;
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
+            from[dx][dy] = {x, y};
+            next_move[x][y] = i;
             step[dx][dy] = dstep;
             q.push({dx, dy, dstep});
         }
     }
     // BFS结束，已经找到最优路径
 
-    // 下面将最优路径记录下来，存进passing_time数组内
+    // 寻找最优货物
+    int min_steps = INT_MAX;
+    Point good_pos;
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            if(!is_good[i][j]) continue;
+            if(step[i][j] < min_steps) {
+                step[i][j] = min_steps;
+                good_pos = {i, j};
+            }
+        }
+    }
 
+    // 根据最优货物的坐标寻找来时路径
+    Point now = good_pos;
+    Point robot_pos = {robot.x, robot.y};
+    while(now != robot_pos) {
+        passing_time[now.x][now.y].insert(step[now.x][now.y]);
+        now = from[now.x][now.y];
+    }
+    passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
+
+    *nextMove = next_move[robot.x][robot.y];
+
+    return good_pos;
 }

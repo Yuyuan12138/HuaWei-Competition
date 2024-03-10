@@ -3,6 +3,7 @@
 
 #include <queue>
 #include "Variation.h"
+#include "Map.h"
 
 inline constexpr int expire_time = 1000;            // 货物的停留的时间
 
@@ -46,5 +47,8 @@ struct Goods {
     */
    void add(int x, int y, int now);
 } inline goods;
+
+inline bool is_good[N][N];          /// 每个节点是否为货物
+inline bool good_money[N][N];       /// 当前位置的货物价值（只在is_good[x][y]==true是生效）
 
 #endif //CODECRAFTSDK_GOODS_H

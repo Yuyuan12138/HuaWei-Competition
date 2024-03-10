@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstring>
+#include <climits>
 
 #include "Map.h"
 #include "Robot.h"
