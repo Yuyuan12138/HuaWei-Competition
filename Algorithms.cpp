@@ -97,7 +97,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         for(int j = 1; j <= n; j++) {
             if(!is_good[i][j]) continue;
             if(step[i][j] < min_steps) {
-                step[i][j] = min_steps;
+                min_steps = step[i][j];
                 good_pos = {i, j};
             }
         }
@@ -115,4 +115,64 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     *nextMove = next_move[robot.x][robot.y];
 
     return good_pos;
+}
+
+/// @brief 为每个机器人寻找距离其最近的港口，同时更新passing_time变量，记录碰撞数据
+/// @param[in] robot_id 机器人编号
+/// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
+/// @return 选择的港口坐标
+Point find_berth_for_robot(int robot_id, int * nextMove) {
+    memset(visited, 0, sizeof(visited));
+    memset(step, 0, sizeof(step));
+
+    Robot& robot = robots[robot_id];
+    priority_queue<StateRobot> q;                               // BFS使用的优先队列
+
+    // BFS过程
+    q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
+    while(!q.empty()) {
+        auto now = q.top(); q.pop();
+        int x = now.x, y = now.y;
+        if(step[x][y] < now.step) continue;
+        for(int i = 0; i < 5; i++) {
+            int dx = x + to[i][0],
+                dy = y + to[i][1],
+                dstep = now.step + 1;
+            if(ch[dx][dy] == '#') continue;
+            if(visited[dx][dy]) continue;
+            if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
+            if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
+            from[dx][dy] = {x, y};
+            next_move[x][y] = i;
+            step[dx][dy] = dstep;
+            q.push({dx, dy, dstep});
+        }
+    }
+    // BFS结束，已经找到最优路径
+
+    // 寻找最优港口
+    int min_steps = INT_MAX;
+    Point berth_pos;
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            if(ch[i][j] != 'B') continue;       // 如果不是港口则跳过
+            if(step[i][j] < min_steps) {
+                min_steps = step[i][j];
+                berth_pos = {i, j};
+            }
+        }
+    }
+
+    // 根据最优货物的坐标寻找来时路径
+    Point now = berth_pos;
+    Point robot_pos = {robot.x, robot.y};
+    while(now != robot_pos) {
+        passing_time[now.x][now.y].insert(step[now.x][now.y]);
+        now = from[now.x][now.y];
+    }
+    passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
+
+    *nextMove = next_move[robot.x][robot.y];
+
+    return berth_pos;
 }
