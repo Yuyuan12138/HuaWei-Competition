@@ -1,8 +1,6 @@
 #ifndef CODECRAFTSDK_POINT_H
 #define CODECRAFTSDK_POINT_H
 
-#include <array>
-
 /// @brief 点的坐标结构
 struct Point {
     int x, y;
