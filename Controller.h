@@ -5,7 +5,7 @@
 #ifndef CODECRAFTSDK_CONTROLLER_H
 #define CODECRAFTSDK_CONTROLLER_H
 #include <vector>
-
+#include "Algorithms.h"
 struct Operation{
     int objector;    /// 对象指代：0, robot. 1, boat.
     int command;
@@ -25,5 +25,8 @@ struct Operation{
  * @param optionArg For robot: 0, right. 1, left. 2, up. 3, down. For boat: the id of berth.
  * */
 inline std::vector<Operation> operations;
+
+
+void controller();
 
 #endif //CODECRAFTSDK_CONTROLLER_H

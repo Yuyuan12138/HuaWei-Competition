@@ -4,10 +4,12 @@
 
 #ifndef CODECRAFTSDK_MAIN_H
 #define CODECRAFTSDK_MAIN_H
+
 #include <bits/stdc++.h>
 #include "Input.h"
 #include "Init.h"
 #include "Constants.h"
 #include "Output.h"
+#include "Algorithms.h"
 
 #endif //CODECRAFTSDK_MAIN_H

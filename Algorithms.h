@@ -23,6 +23,6 @@ void split_areas();
  * @param[in] robot_id 机器人编号
  * @return 选取的港口编号。同时记录当前机器人的路径至passing_time变量
 */
-int find_good_for_robot(int robot_id);
+Point find_good_for_robot(int robot_id, int * nextMove);
 
 #endif

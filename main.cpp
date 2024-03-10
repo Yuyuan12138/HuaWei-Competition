@@ -5,6 +5,7 @@
 int main()
 {
     Init();
+    split_areas();
     for(int zhen = 1; zhen <= 15000; zhen ++)
     {
         Operation op;
@@ -12,8 +13,9 @@ int main()
         {
             op.objector = 0;
             op.command = 0;
-            op.optionArg = 0;
             op.id = i % 5;
+            find_good_for_robot(op.id, &op.optionArg);
+
             operations.push_back(op);
         }
         output();
