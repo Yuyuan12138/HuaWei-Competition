@@ -8,6 +8,7 @@
 #include <bits/stdc++.h>
 #include "Robot.h"
 #include "Boat.h"
+#include "Controller.h"
 
 void output();
 

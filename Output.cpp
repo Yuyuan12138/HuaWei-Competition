@@ -6,29 +6,40 @@
 
 void output()
 {
-    for(auto &x: robotsCommand)
+    for(auto &x: operation)
     {
-        if(x.command == 0){
-            std::cout << "move " << x.robot_id << " " << x.direction << std::endl;
-        }else if(x.command == 1){
-            std::cout << "get " << x.robot_id << std::endl;
-        } else if(x.command == 2){
-            std::cout << "pull" << x.robot_id << std::endl;
-        }
-    }
-    // 清空控制
-    robotsCommand.clear();
-
-    for(auto &x: boatsCommand)
-    {
-        if(x.command == 0){
-            std::cout << "ship " << x.boat_id << " " << x.to_berth << std::endl;
-        }else if(x.command == 1)
+        /// 机器人控制
+        if(x.objector == 0)
         {
-            std::cout << "go " << x.boat_id << std::endl;
+            if(x.command == 0)
+            {
+                std::cout << "move " << x.id << " " << x.optionArg << std::endl;
+            }
+            if(x.command == 1)
+            {
+                std::cout << "get " << x.id << std::endl;
+            }
+            if(x.command == 2)
+            {
+                std::cout << "pull " << x.id << std::endl;
+            }
+        }
+
+        /// 轮船控制
+        if(x.objector == 1)
+        {
+            if(x.command == 0)
+            {
+                std::cout << "ship " << x.id << " " << x.optionArg << std::endl;
+            }
+            if(x.command == 1)
+            {
+                std::cout << "go " << x.id << std::endl;
+            }
         }
     }
-    boatsCommand.clear();
+    operation.clear();
+
     puts("OK");
     fflush(stdout);
 };

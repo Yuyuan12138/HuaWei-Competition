@@ -7,18 +7,14 @@ int main()
     Init();
     for(int zhen = 1; zhen <= 15000; zhen ++)
     {
-        int id = Input();
-//        for(int i = 0; i < robot_num; i ++)
-//            printf("move %d %d\n", i, rand() % 4);
-//        puts("OK");
-//        fflush(stdout);
-        Robots_command r;
+        Operation op;
         for(int i = 0; i < robot_num; i++)
         {
-            r.command = 0;
-            r.direction = 0;
-            r.robot_id = i % 5;
-            robotsCommand.push_back(r);
+            op.objector = 0;
+            op.command = 0;
+            op.optionArg = 0;
+            op.id = i % 5;
+            operation.push_back(op);
         }
         output();
     }

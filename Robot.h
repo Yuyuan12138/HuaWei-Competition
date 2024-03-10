@@ -28,25 +28,6 @@ struct Robot{
 } inline robots[robot_num + 10];
 
 
-struct Robots_command{
-
-    int command;
-
-    int robot_id;
-
-    int direction;
-
-};
-
-/**
- * @brief 机器人操作
- * @param command 操作指令 0：move，1：get，2：pull
- * @param robot_id 机器人id
- * @param direction <用于move> 0：右，1：左，2：上，3：下
- * */
-inline std::vector<Robots_command> robotsCommand;
-
-
 #endif //CODECRAFTSDK_ROBOT_H
 /**
  *  Why I code this program has been forgotten. If you want to optimize my code.

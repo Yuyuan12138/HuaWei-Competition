@@ -23,16 +23,4 @@ struct Boat
     int status;                 // 船的状态
 } inline boat[10];
 
-struct Boats_command{
-    int command;
-    int boat_id;
-    int to_berth;
-};
-/**
- * @brief 船只控制
- * @param command 行为控制。0：移动到指定泊位。1：驶出至虚拟点。
- * @param boat_id 船只ID。
- * @param to_berth <ship可选> 移动到指定泊位[0, 9]。
- * */
-inline std::vector<Boats_command> boatsCommand;
 #endif //CODECRAFTSDK_BOAT_H
