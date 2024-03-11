@@ -29,6 +29,8 @@ struct Robot{
 
 
 #endif //CODECRAFTSDK_ROBOT_H
+
+
 /**
  *  Why I code this program has been forgotten. If you want to optimize my code.
  *  I advice you not to do that.
