@@ -21,3 +21,7 @@ void Goods::add(int x, int y, int now = now) {
     Good good(x, y, now);
     add(good);
 }
+
+int Goods::size() {
+    return q.size();
+}
