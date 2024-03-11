@@ -9,5 +9,6 @@ inline constexpr int n = 200;               /** 地图大小 */
 inline constexpr int robot_num = 10;        /** 机器人最大容量 */
 inline constexpr int berth_num = 10;        /** 港口最大容量 */
 inline constexpr int MAX_AREAS = 10;        /** 区域最大容量 */
+inline constexpr int boat_num = 5;         /** 船只最大数量 */
 
 #endif //CODECRAFTSDK_CONSTANTS_H
