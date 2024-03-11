@@ -19,6 +19,7 @@ struct Berth
     int area;                           /*! 港口所属的连通块编号 */
     std::multiset<int> good_values;     /*! 每个货物的价值 */
     int sum_value = 0;                 /*! 货物价值之和 */
+    int boat_id = -1;                   /*! 是否有船只 */
     Berth(){}
     Berth(int x, int y, int transport_time, int loading_speed);
 
