@@ -46,6 +46,10 @@ struct Goods {
      * @return void
     */
    void add(int x, int y, int now);
+
+   /// @brief 返回货物数量
+   /// @return 货物数量
+   int size();
 } inline goods;
 
 inline bool is_good[N][N];          /// 每个节点是否为货物
