@@ -11,11 +11,14 @@ int Input()
 
     /// 读取货物数量
     scanf("%d", &num);
+    Good good;
     for(int i = 1; i <= num; i ++)
     {
-        /// x, y 货物的坐标, val 金额 <= 1000
-        int x, y, val;
-        scanf("%d%d%d", &x, &y, &val);
+        /// x, y 货物的坐标, val 金额 <= 200
+//        int x, y, val;
+//        scanf("%d%d%d", &x, &y, &val);
+        scanf("%d%d%d", &good.x, &good.y, &good.money);
+        goods.add(good);
     }
 
     for(int i = 0; i < robot_num; i ++)

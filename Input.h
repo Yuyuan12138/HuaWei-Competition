@@ -10,6 +10,7 @@
 #include "Robot.h"
 #include "Boat.h"
 #include "fastio.h"
+#include "Goods.h"
 
 /**
  * @brief 输入程序
