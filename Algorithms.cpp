@@ -4,7 +4,8 @@ using namespace std;
 int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
 int next_move[N][N];                        // 每一个点决定向下移动的方向
 Point from[N][N];                           // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
-bool visited[N][N], step[N][N];
+bool visited[N][N];
+int step[N][N];
 
 inline bool check_coord(int x, int y) {
     if (x < 1 || x > n || y < 1 || y > n)
@@ -71,37 +72,50 @@ struct StateRobot {
 /// @return 选择的货物坐标
 Point find_good_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
-    memset(step, 0, sizeof(step));
+    memset(step, 0x3f, sizeof(step));
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
 
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
+    step[robot.x][robot.y] = 0;
     while(!q.empty()) {
         auto now = q.top(); q.pop();
         int x = now.x, y = now.y;
-        cerr << x << ' ' << y << endl;
+        // cerr << "visiting " << x << ' ' << y << endl;
         visited[x][y] = true;
+        // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
+        // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 5; i++) {
             int dx = x + to[i][0],
                 dy = y + to[i][1],
                 dstep = now.step + 1;
+            // cerr << "d: " << dx << ' ' << dy << endl;
             if(!check_coord(dx, dy)) continue;
+            // cerr << "check coord" << endl;
             if(ch[dx][dy] == '#') continue;
+            // cerr << "map ok" << endl;
             if(visited[dx][dy]) continue;
+            // cerr << "!visited" << endl;
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
+            // cerr << "passing time ok" << endl;
             if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
+            // cerr << "step ok" << endl;
             from[dx][dy] = {x, y};
             next_move[x][y] = i;
             step[dx][dy] = dstep;
+            // cerr << "equal " << dstep << ' ' << step[dx][dy] << endl;
+            // cerr << "step[" << dx << "][" << dy << "] =" << step[dx][dy] << endl;
             q.push({dx, dy, dstep});
+            // cerr << "Pushed: " << dx << ' ' << dy << ' ' << dstep << endl;
         }
     }
-    // BFS结束，已经找到最优路径
 
+    // BFS结束，已经找到最优路径
     cerr << "BFS finished" << endl;
+
     // 寻找最优货物
     int min_steps = INT_MAX;
     Point good_pos;

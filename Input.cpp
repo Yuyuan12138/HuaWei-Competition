@@ -21,6 +21,7 @@ int Input()
     {
         /// x, y 货物的坐标, val 金额 <= 1000
         int x, y, val;
+        x++; y++;
         cin >> x >> y >> val;
         goods.add(x, y, val, now);
         goods.remove_expired(now);
@@ -30,6 +31,7 @@ int Input()
     {
         /// 读取机器人状态
         cin >> robots[i].goods >> robots[i].x >> robots[i].y >> robots[i].status;
+        robots[i].x++; robots[i].y++;
     }
     for(int i = 0; i < 5; i ++)
     {
