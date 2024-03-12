@@ -39,5 +39,7 @@ struct Berth
     /// @brief 查询当前货物数量
     /// @return 货物数量
     int get_good_count();
+
+    int get_single_value();
 } inline berths[berth_num + 10];
 #endif //CODECRAFTSDK_BERTH_H

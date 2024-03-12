@@ -32,3 +32,8 @@ int Berth::get_value_sum() {
 int Berth::get_good_count() {
     return good_values.size();
 }
+
+// TODO
+int Berth::get_single_value() {
+    return 114514;
+}

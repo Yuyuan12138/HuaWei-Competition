@@ -53,7 +53,12 @@ void boatController()
                             berths[boat[i].pos].boat_id = -1;
                             operations.push_back(boat_operate);
                         }else{
-                            /// 还有货物，呆着
+                            /// 减去货物，还有货物，呆着
+                            for(int _ = 0; _ < berths[boat[i].pos].loading_speed; _++)
+                            {
+                                berths[boat[i].pos].remove_good(berths[boat[i].pos].get_single_value());
+                            }
+
                             continue;
                         }
                     }
