@@ -21,7 +21,7 @@ struct Berth
 //    std::multiset<int> good_values;     /*! 每个货物的价值 */
     std::queue<int> good_values;
     int sum_value = 0;                 /*! 货物价值之和 */
-    int boat_id = -1;                   /*! 是否有船只 */
+    int num_boatStore = 0;                 /*! 存储的boat */
     Berth(){}
     Berth(int x, int y, int transport_time, int loading_speed);
 

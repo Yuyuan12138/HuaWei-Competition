@@ -6,10 +6,14 @@
 
 void boatController()
 {
+    /// todo: 每个船所装的货物数量要自更新
     for(int i = 0; i < 5; i++)
     {
 
-        if(boat[i].status == 0) continue;   /// 如果船处于运输中，则不予理会
+        if(boat[i].status == 0)
+        {
+            boat[i].num_goods = 0;
+        }   /// 如果船处于运输中，则不予理会
 
         if(boat[i].status == 1)
         {
@@ -26,7 +30,7 @@ void boatController()
                     boat_operate.objector = 1;
                     boat_operate.command = 1;
                     boat_operate.id = i;
-                    berths[boat[i].pos].boat_id = -1;
+                    berths[boat[i].pos].num_boatStore -= 1;
                     operations.push_back(boat_operate);
                 }else{
                     /// 不满载
@@ -39,7 +43,7 @@ void boatController()
                         boat_operate.objector = 1;
                         boat_operate.command = 1;
                         boat_operate.id = i;
-                        berths[boat[i].pos].boat_id = -1;
+                        berths[boat[i].pos].num_boatStore -= 1;
                         operations.push_back(boat_operate);
                     }else{
                         /// 判断是否还有货物
@@ -50,7 +54,7 @@ void boatController()
                             boat_operate.objector = 1;
                             boat_operate.command = 1;
                             boat_operate.id = i;
-                            berths[boat[i].pos].boat_id = -1;
+                            berths[boat[i].pos].num_boatStore -= 1;
                             operations.push_back(boat_operate);
                         }else{
                             /// 减去货物，还有货物，呆着
@@ -64,20 +68,19 @@ void boatController()
                             {
                                 berths[boat[i].pos].remove_good();
                             }
-
                             continue;
                         }
                     }
                 }
             }else{
                 /// 不在装货点
-                // todo 计算最高价值的点
+                /// todo 计算最高价值的点
                 int max_value = 0;
                 int idx = 0;
-                for(int j = 0; j < berth_num;j++)
+                boat[i].num_goods = 0;
+                for(int j = 0; j < berth_num; j++)
                 {
-                    boat[i].num_goods = 0;
-                    if(berths[j].boat_id == -1)
+                    if(berths[j].num_boatStore <= 0)
                     {
                         /// 时间 = 去的时间 + （港口货物数量 / 装货速度）
                         int time = berths[j].get_good_count() / berths[j].loading_speed + berths[j].transport_time;
@@ -87,6 +90,7 @@ void boatController()
                             max_value = value;
                             idx = j;
                         }
+                        berths[j].num_boatStore += 1;
                     }
                 }
                 /// 去往价值最高的索引berth
@@ -95,6 +99,7 @@ void boatController()
                 boat_operate.command = 0;
                 boat_operate.id = i;
                 boat_operate.optionArg = idx;
+
                 operations.push_back(boat_operate);
 
             }
