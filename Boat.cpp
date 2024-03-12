@@ -43,9 +43,9 @@ void boatController()
                         operations.push_back(boat_operate);
                     }else{
                         /// 判断是否还有货物
-                        if(berths[boat[i].pos].get_good_count() <= 0)
+                        if(berths[boat[i].pos].get_good_count() <= 0 && boat[i].num_goods > 0)
                         {
-                            /// 没有货物，去往虚拟点
+                            /// 没有货物，去往虚拟点 但船上有
                             Operation boat_operate{};
                             boat_operate.objector = 1;
                             boat_operate.command = 1;
