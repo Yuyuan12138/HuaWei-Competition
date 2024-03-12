@@ -4,3 +4,6 @@
 
 #include "Robot.h"
 
+void robotController() {
+    
+}

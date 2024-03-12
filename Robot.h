@@ -28,6 +28,8 @@ struct Robot{
 } inline robots[robot_num + 10];
 
 
+void robotController();
+
 #endif //CODECRAFTSDK_ROBOT_H
 
 
