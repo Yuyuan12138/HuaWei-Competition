@@ -9,7 +9,6 @@ void boatController()
     /// todo: 每个船所装的货物数量要自更新
     for(int i = 0; i < 5; i++)
     {
-
         if(boat[i].status == 0)
         {
             boat[i].num_goods = 0;
@@ -34,7 +33,6 @@ void boatController()
                     operations.push_back(boat_operate);
                 }else{
                     /// 不满载
-
                     /// 获取当前港口需要到达 虚拟点的时间
                     if(berths[boat[i].pos].transport_time <= 15000 - now)
                     {
@@ -55,24 +53,28 @@ void boatController()
                             boat_operate.command = 1;
                             boat_operate.id = i;
                             berths[boat[i].pos].num_boatStore -= 1;
+                            boat[i].num_goods = 0;
                             operations.push_back(boat_operate);
                         }else{
                             /// 减去货物，还有货物，呆着
-                            if(berths[boat[i].pos].get_good_count() > berths[boat[i].pos].transport_time)
+                            if(berths[boat[i].pos].get_good_count() > berths[boat[i].pos].loading_speed)
                             {
-                                boat[i].num_goods += berths[boat[i].pos].transport_time;
+                                boat[i].num_goods += berths[boat[i].pos].loading_speed;
                             }else{
                                 boat[i].num_goods += berths[boat[i].pos].get_good_count();
                             }
+
                             for(int _ = 0; _ < berths[boat[i].pos].loading_speed; _++)
                             {
                                 berths[boat[i].pos].remove_good();
                             }
+
                             continue;
                         }
                     }
                 }
             }else{
+
                 /// 不在装货点
                 /// todo 计算最高价值的点
                 int max_value = 0;
@@ -118,5 +120,6 @@ void boatController()
         {
             continue;
         }
+
     }
 }

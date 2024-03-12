@@ -33,11 +33,15 @@ void output()
             {
                 std::cout << "ship " << x.id << " " << x.optionArg << std::endl;
                 std::cerr << "ship " << x.id << " " << x.optionArg << std:: endl;
+                fflush(stdout);
+
             }
             if(x.command == 1)
             {
                 std::cout << "go " << x.id << std::endl;
                 std::cerr << "go " << x.id << std::endl;
+                fflush(stdout);
+
             }
         }
     }
