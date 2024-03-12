@@ -14,6 +14,7 @@ void output()
             if(x.command == 0)
             {
                 std::cout << "move " << x.id << " " << x.optionArg << std::endl;
+
             }
             if(x.command == 1)
             {
@@ -31,10 +32,12 @@ void output()
             if(x.command == 0)
             {
                 std::cout << "ship " << x.id << " " << x.optionArg << std::endl;
+                std::cerr << "ship " << x.id << " " << x.optionArg << std:: endl;
             }
             if(x.command == 1)
             {
                 std::cout << "go " << x.id << std::endl;
+                std::cerr << "go " << x.id << std::endl;
             }
         }
     }

@@ -21,6 +21,7 @@ struct Robot{
     int x, y;           // 当前坐标
     int goods;          // 是否携带货物
     int status;         // 状态：0恢复状态，1正常运行状态
+    int id;
     int mbx, mby;
     int area;           // 机器人所属的连通块编号
     Robot() {}

@@ -80,10 +80,13 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
     step[robot.x][robot.y] = 0;
+
     while(!q.empty()) {
         auto now = q.top(); q.pop();
+
         int x = now.x, y = now.y;
         // cerr << "visiting " << x << ' ' << y << endl;
+        if(visited[x][y]) continue;
         visited[x][y] = true;
         // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
         // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
@@ -112,9 +115,10 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
             // cerr << "Pushed: " << dx << ' ' << dy << ' ' << dstep << endl;
         }
     }
-
-    // BFS结束，已经找到最优路径
-    cerr << "BFS finished" << endl;
+//    std::cerr << "----" << std::endl;
+//
+//    // BFS结束，已经找到最优路径
+//    cerr << "BFS finished" << endl;
 
     // 寻找最优货物
     int min_steps = INT_MAX;

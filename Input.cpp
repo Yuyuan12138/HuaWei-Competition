@@ -32,6 +32,8 @@ int Input()
         /// 读取机器人状态
         cin >> robots[i].goods >> robots[i].x >> robots[i].y >> robots[i].status;
         robots[i].x++; robots[i].y++;
+        robots[i].id = i;
+//        cerr << robots[i].status << endl;
     }
     for(int i = 0; i < 5; i ++)
     {

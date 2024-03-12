@@ -54,9 +54,15 @@ void boatController()
                             operations.push_back(boat_operate);
                         }else{
                             /// 减去货物，还有货物，呆着
+                            if(berths[boat[i].pos].get_good_count() > berths[boat[i].pos].transport_time)
+                            {
+                                boat[i].num_goods += berths[boat[i].pos].transport_time;
+                            }else{
+                                boat[i].num_goods += berths[boat[i].pos].get_good_count();
+                            }
                             for(int _ = 0; _ < berths[boat[i].pos].loading_speed; _++)
                             {
-                                berths[boat[i].pos].remove_good(berths[boat[i].pos].get_single_value());
+                                berths[boat[i].pos].remove_good();
                             }
 
                             continue;
@@ -70,6 +76,7 @@ void boatController()
                 int idx = 0;
                 for(int j = 0; j < berth_num;j++)
                 {
+                    boat[i].num_goods = 0;
                     if(berths[j].boat_id == -1)
                     {
                         /// 时间 = 去的时间 + （港口货物数量 / 装货速度）

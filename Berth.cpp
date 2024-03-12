@@ -12,18 +12,32 @@ Berth::Berth(int x, int y, int transport_time, int loading_speed) {
 }
 
 void Berth::add_good(int value) {
-    good_values.insert(value);
+    good_values.push(value);
     sum_value += value;
 }
 
-int Berth::remove_good(int value) {
-    auto it = good_values.find(value);
-    if(it == good_values.end())
+int Berth::remove_good() {
+    if(good_values.empty())
         return 0;
-    good_values.erase(it);
-    sum_value -= value;
-    return 1;
+    else {
+        sum_value -= good_values.front();
+        good_values.pop();
+        return 1;
+    }
 }
+
+//int Berth::remove_good(int value) {
+////    auto it = good_values.top(value);
+////    if(it == good_values.end())
+////        return 0;
+//    if(good_values.empty())
+//    {
+//        return 0;
+//    }
+//    good_values.pop();
+//    sum_value -= value;
+//    return 1;
+//}
 
 int Berth::get_value_sum() {
     return sum_value;
@@ -34,6 +48,10 @@ int Berth::get_good_count() {
 }
 
 // TODO
-int Berth::get_single_value() {
-    return 114514;
-}
+//int Berth::get_single_value() {
+//    if(good_values.empty())
+//    {
+//        return -1;
+//    }
+//    return good_values.top();
+//}
