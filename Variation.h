@@ -10,9 +10,6 @@ using namespace std;
 /// 当前金钱数
 inline int money;
 
-/// 当前帧序号
-inline int id;
-
 /// 当前时间戳
 inline int now;
 

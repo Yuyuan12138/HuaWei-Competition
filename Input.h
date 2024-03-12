@@ -9,6 +9,7 @@
 #include "Constants.h"
 #include "Robot.h"
 #include "Boat.h"
+#include "Goods.h"
 #include "fastio.h"
 
 /**

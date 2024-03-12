@@ -13,7 +13,7 @@ struct Good {
     int money;                                      // 货物金额
     int expires_at;                                 // 货物消失的时间戳
     Good() {}
-    Good(int x, int y, int now) : x(x), y(y), expires_at(now + expire_time) {}
+    Good(int x, int y, int money, int now = ::now) : x(x), y(y), money(money), expires_at(now + expire_time) {}
     bool operator<(const Good& rhs) const {
         return expires_at > rhs.expires_at;
     }
@@ -42,10 +42,11 @@ struct Goods {
      * @brief 将货物加入队列
      * @param x 货物的x坐标
      * @param y 货物的y坐标
+     * @param money 货物价值
      * @param now 当前时间戳（默认取全局时间戳）
      * @return void
     */
-   void add(int x, int y, int now);
+   void add(int x, int y, int money, int now);
 
    /// @brief 返回货物数量
    /// @return 货物数量

@@ -8,16 +8,14 @@ int main()
     split_areas();
     for(int zhen = 1; zhen <= 15000; zhen ++)
     {
-        Operation op;
-        for(int i = 0; i < robot_num; i++)
-        {
-            op.objector = 0;
-            op.command = 0;
-            op.id = i % 5;
-            find_good_for_robot(op.id, &op.optionArg);
-
-            operations.push_back(op);
+        int input_now = Input();
+        if(input_now > zhen) {
+            continue;
         }
+
+        robotController();
+
+        boatController();
         output();
     }
 

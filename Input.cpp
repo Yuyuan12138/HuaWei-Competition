@@ -7,7 +7,7 @@
 int Input()
 {
     /// 读取帧序号和当前金钱数
-    scanf("%d%d", &id, &money);
+    scanf("%d%d", &now, &money);
 
     /// 读取货物数量
     scanf("%d", &num);
@@ -16,6 +16,8 @@ int Input()
         /// x, y 货物的坐标, val 金额 <= 1000
         int x, y, val;
         scanf("%d%d%d", &x, &y, &val);
+        goods.add(x, y, val, now);
+        goods.remove_expired(now);
     }
 
     for(int i = 0; i < robot_num; i ++)
@@ -32,5 +34,5 @@ int Input()
 
     char okk[100];
     scanf("%s", okk);
-    return id;
+    return now;
 }

@@ -17,8 +17,8 @@ void Goods::add(Good good) {
     good_money[good.x][good.y] = true;
 }
 
-void Goods::add(int x, int y, int now = now) {
-    Good good(x, y, now);
+void Goods::add(int x, int y, int money, int now = now) {
+    Good good(x, y, money, now);
     add(good);
 }
 

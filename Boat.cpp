@@ -32,7 +32,7 @@ void boatController()
                     /// 不满载
 
                     /// 获取当前港口需要到达 虚拟点的时间
-                    if(berths[boat[i].pos].transport_time <= 15000 - id)
+                    if(berths[boat[i].pos].transport_time <= 15000 - now)
                     {
                         /// 强制前往虚拟点
                         Operation boat_operate;
