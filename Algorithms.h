@@ -25,4 +25,6 @@ void split_areas();
 */
 Point find_good_for_robot(int robot_id, int * nextMove);
 
+Point find_berth_for_robot(int robot_id, int * nextMove);
+
 #endif

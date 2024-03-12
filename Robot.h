@@ -7,6 +7,9 @@
 
 #include "Constants.h"
 #include <vector>
+#include "Algorithms.h"
+#include "Output.h"
+#include "Controller.h"
 
 /**
  * @brief 机器人的结构体
