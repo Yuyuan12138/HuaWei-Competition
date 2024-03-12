@@ -17,10 +17,11 @@ void robotController()
          if(robots[i].goods == 0)
          {
              /// 未携带货物，且不在货物点
-             /// todo: 判断是否在货物点
-             Point point{};
+             /// TODO: 判断是否在货物点
+             Point point;
              /// 货物坐标
              point = find_good_for_robot(i, &direction);
+             cerr << "found good for robot" << endl;
              /// 塞入operation
              Operation operation{};
              operation.id = i;
@@ -33,7 +34,7 @@ void robotController()
          if(robots[i].goods == 1)
          {
              /// 携带货物，且不在港口点
-             /// todo: 判断是否在berth
+             /// TODO: 判断是否在berth
 
              Point point{};
              point = find_berth_for_robot(i, &direction);

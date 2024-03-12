@@ -3,20 +3,25 @@
 //
 
 #include "Input.h"
+using namespace std;
 
 int Input()
 {
     /// 读取帧序号和当前金钱数
-    scanf("%d%d", &now, &money);
+    cin >> now >> money;
+    
+    if (cin.eof()) {
+        exit(EXIT_SUCCESS);
+    }
 
     /// 读取货物数量
-    scanf("%d", &num);
+    cin >> num;
     Good good;
     for(int i = 1; i <= num; i ++)
     {
         /// x, y 货物的坐标, val 金额 <= 1000
         int x, y, val;
-        scanf("%d%d%d", &x, &y, &val);
+        cin >> x >> y >> val;
         goods.add(x, y, val, now);
         goods.remove_expired(now);
     }
@@ -24,16 +29,16 @@ int Input()
     for(int i = 0; i < robot_num; i ++)
     {
         /// 读取机器人状态
-        scanf("%d%d%d%d", &robots[i].goods, &robots[i].x, &robots[i].y, &robots[i].status);
+        cin >> robots[i].goods >> robots[i].x >> robots[i].y >> robots[i].status;
     }
     for(int i = 0; i < 5; i ++)
     {
         /// 读取轮船状态
-        scanf("%d%d\n", &boat[i].status, &boat[i].pos);
+        cin >> boat[i].status >> boat[i].pos;
         boat[i].num = i;
     }
 
     char okk[100];
-    scanf("%s", okk);
+    cin >> okk;
     return now;
 }

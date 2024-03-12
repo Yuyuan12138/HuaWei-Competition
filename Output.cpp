@@ -40,6 +40,6 @@ void output()
     }
     operations.clear();
 
-    puts("OK");
+    std::cout << "OK" << std::endl;
     fflush(stdout);
 };

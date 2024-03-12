@@ -31,5 +31,5 @@ struct Boat
     int status;                 // 船的状态
 } inline boat[boat_num];
 
-inline void boatController();
+void boatController();
 #endif //CODECRAFTSDK_BOAT_H

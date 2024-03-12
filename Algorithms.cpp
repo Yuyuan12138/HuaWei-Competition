@@ -6,12 +6,20 @@ int next_move[N][N];                        // 每一个点决定向下移动的
 Point from[N][N];                           // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
 bool visited[N][N], step[N][N];
 
+inline bool check_coord(int x, int y) {
+    if (x < 1 || x > n || y < 1 || y > n)
+        return false;
+    return true;
+}
+
 void split_areas_dfs(int x, int y, int area_idx) {
+    // cerr << x << ' ' << y << endl;
     visited[x][y] = true;
     area_id[x][y] = area_idx;
     for(int i = 0; i < 4; i++) {
         int dx = x + to[i][0],
             dy = y + to[i][1];
+        if(!check_coord(dx, dy)) continue;
         if(visited[dx][dy]) continue;
         if(ch[dx][dy] == '#') continue;
         split_areas_dfs(dx, dy, area_idx);
@@ -73,11 +81,14 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     while(!q.empty()) {
         auto now = q.top(); q.pop();
         int x = now.x, y = now.y;
+        cerr << x << ' ' << y << endl;
+        visited[x][y] = true;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 5; i++) {
             int dx = x + to[i][0],
                 dy = y + to[i][1],
                 dstep = now.step + 1;
+            if(!check_coord(dx, dy)) continue;
             if(ch[dx][dy] == '#') continue;
             if(visited[dx][dy]) continue;
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
@@ -90,6 +101,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     }
     // BFS结束，已经找到最优路径
 
+    cerr << "BFS finished" << endl;
     // 寻找最优货物
     int min_steps = INT_MAX;
     Point good_pos;
@@ -133,11 +145,13 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
     while(!q.empty()) {
         auto now = q.top(); q.pop();
         int x = now.x, y = now.y;
+        visited[x][y] = true;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 5; i++) {
             int dx = x + to[i][0],
                 dy = y + to[i][1],
                 dstep = now.step + 1;
+            if(!check_coord(dx, dy)) continue;
             if(ch[dx][dy] == '#') continue;
             if(visited[dx][dy]) continue;
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃

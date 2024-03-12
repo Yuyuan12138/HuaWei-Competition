@@ -10,3 +10,5 @@ endif (!WIN32)
 
 AUX_SOURCE_DIRECTORY(. src)
 ADD_EXECUTABLE(main ${src})
+
+configure_file(main /home/wzl/hw-sdk/Demo/main COPYONLY)
