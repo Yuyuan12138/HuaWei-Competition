@@ -8,6 +8,8 @@ void robotController()
 {
     for(int i = 0; i < robot_num; i++)
     {
+        /// 处于恢复状态，则不操作
+        if(robots[i].status == 0) continue;
         /**
          * @brief 分类机器人状态并且进行操作
          * */
