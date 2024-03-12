@@ -11,6 +11,7 @@ int Input()
 
     /// 读取货物数量
     scanf("%d", &num);
+    Good good;
     for(int i = 1; i <= num; i ++)
     {
         /// x, y 货物的坐标, val 金额 <= 1000

@@ -26,7 +26,7 @@ struct Operation{
  * */
 inline std::vector<Operation> operations;
 
-
+/// todo: 对数据进行检查。
 void controller();
 
 #endif //CODECRAFTSDK_CONTROLLER_H

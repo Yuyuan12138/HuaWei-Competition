@@ -22,7 +22,7 @@ void boatController()
                 if(boat[i].num_goods >= boat[i].capacity)
                 {
                     /// 去往虚拟点
-                    Operation boat_operate;
+                    Operation boat_operate{};
                     boat_operate.objector = 1;
                     boat_operate.command = 1;
                     boat_operate.id = i;
@@ -35,7 +35,7 @@ void boatController()
                     if(berths[boat[i].pos].transport_time <= 15000 - now)
                     {
                         /// 强制前往虚拟点
-                        Operation boat_operate;
+                        Operation boat_operate{};
                         boat_operate.objector = 1;
                         boat_operate.command = 1;
                         boat_operate.id = i;
@@ -46,7 +46,7 @@ void boatController()
                         if(berths[boat[i].pos].get_good_count() <= 0)
                         {
                             /// 没有货物，去往虚拟点
-                            Operation boat_operate;
+                            Operation boat_operate{};
                             boat_operate.objector = 1;
                             boat_operate.command = 1;
                             boat_operate.id = i;
@@ -78,7 +78,7 @@ void boatController()
                     }
                 }
                 /// 去往价值最高的索引berth
-                Operation boat_operate;
+                Operation boat_operate{};
                 boat_operate.objector = 1;
                 boat_operate.command = 0;
                 boat_operate.id = i;

@@ -11,6 +11,7 @@
 #include "Boat.h"
 #include "Goods.h"
 #include "fastio.h"
+#include "Goods.h"
 
 /**
  * @brief 输入程序
