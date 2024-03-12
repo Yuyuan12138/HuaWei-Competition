@@ -78,21 +78,29 @@ void boatController()
                 int max_value = 0;
                 int idx = 0;
                 boat[i].num_goods = 0;
+
+                /// 遍历每个berth， 首先保证没有船只在该港口
+                /// 然后寻找价值最高的那个映射
+                /// 前提条件：berth 数量大于 boat数量
                 for(int j = 0; j < berth_num; j++)
                 {
+                    /**
+                     * 如果该港口没有船只，那么计算value数值，如果value > max_value 那么暂定去到这个港口
+                     * */
                     if(berths[j].num_boatStore <= 0)
                     {
                         /// 时间 = 去的时间 + （港口货物数量 / 装货速度）
                         int time = berths[j].get_good_count() / berths[j].loading_speed + berths[j].transport_time;
                         int value = berths[j].get_value_sum() / time;
-                        if(value > max_value)
+                        if(value >= max_value)
                         {
                             max_value = value;
                             idx = j;
                         }
-                        berths[j].num_boatStore += 1;
+
                     }
                 }
+                berths[idx].num_boatStore += 1;
                 /// 去往价值最高的索引berth
                 Operation boat_operate{};
                 boat_operate.objector = 1;
