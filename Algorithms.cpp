@@ -129,6 +129,12 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         }
     }
 
+    // 在路径中没有找到货物
+    if(min_steps == INT_MAX) {
+        *nextMove = 114514;
+        return {-1, -1};
+    }
+
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
