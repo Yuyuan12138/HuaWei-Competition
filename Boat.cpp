@@ -49,7 +49,7 @@ void boatController()
                  continue;
              }
              int temp = min(berths[boat[i].pos].loading_speed, berths[boat[i].pos].get_good_count());
-             boat[i].num_goods += min(berths[boat[i].pos].loading_speed, berths[boat[i].pos].get_good_count());
+             boat[i].num_goods += temp;
              for(int _ = 0; _ < temp; _++)
              {
                  berths[boat[i].pos].remove_good();
