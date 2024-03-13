@@ -85,6 +85,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         auto now = q.top(); q.pop();
 
         int x = now.x, y = now.y;
+        if(visited[x][y]) continue;
         // cerr << "visiting " << x << ' ' << y << endl;
         if(visited[x][y]) continue;
         visited[x][y] = true;
@@ -138,7 +139,6 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         *nextMove = 114514;
         return {-1, -1};
     }
-
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
@@ -159,7 +159,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 /// @return 选择的港口坐标
 Point find_berth_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
-    memset(step, 0, sizeof(step));
+    memset(step, 0x3f, sizeof(step));
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列

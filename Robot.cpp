@@ -49,10 +49,8 @@ void robotController()
              operation.objector = 0;
              operation.command = 0;
              operation.optionArg = direction;
-             if(direction > 3)
-             {
-                 continue;
-             }
+             if(direction < 0 || direction > 3)
+                continue;
              operations.push_back(operation);
 
          }
