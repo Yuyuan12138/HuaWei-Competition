@@ -93,7 +93,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
         // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
         if(step[x][y] < now.step) continue;
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 4; i++) {
             int dx = x + to[i][0],
                 dy = y + to[i][1],
                 dstep = now.step + 1;
@@ -148,7 +148,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
     while(now != robot_pos) {
-        // cerr << now.x << ' ' << now.y << endl;
+        cerr << now.x << ' ' << now.y << endl;
         passing_time[now.x][now.y].insert(step[now.x][now.y]);
         now = from[now.x][now.y];
     }

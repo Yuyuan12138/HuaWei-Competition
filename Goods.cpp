@@ -12,6 +12,16 @@ int Goods::remove_expired(int time = now) {
     return removed_count;
 }
 
+int Goods::remove_on_map(int x, int y) {
+    int removed_count = 0;
+    if(!is_good[x][y])
+        return 0;
+    else {
+        is_good[x][y] = false;
+        return 1;
+    }
+}
+
 void Goods::add(Good good) {
     q.push(good);
     is_good[good.x][good.y] = true;

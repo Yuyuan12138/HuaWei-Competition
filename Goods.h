@@ -50,6 +50,12 @@ struct Goods {
    /// @brief 返回货物数量
    /// @return 货物数量
    int size();
+
+   /// @brief 移除位于某一点的货物
+   /// @param x 货物的x坐标
+   /// @param y 货物的y坐标
+   /// @return 移除的货物数量
+   int remove_on_map(int x, int y);
 } inline goods;
 
 inline bool is_good[N][N];          /// 每个节点是否为货物

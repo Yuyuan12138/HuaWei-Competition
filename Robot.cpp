@@ -17,72 +17,72 @@ void robotController()
         /**
          * @brief 分类机器人状态并且进行操作
          * */
-         int direction = 0;
+        int direction = 0;
 
-         /// 机器人坐标
-         Point robotPoint;
-         Operation operation{};
-         robotPoint.x = robots[i].x, robotPoint.y = robots[i].y;
+        /// 机器人坐标
+        Point robotPoint;
+        Operation operation{};
+        robotPoint.x = robots[i].x, robotPoint.y = robots[i].y;
 
-         if(robots[i].goods == 0)
-         {
-             /// 未携带货物，且不在货物点
-             ///  判断是否在货物点
-             Point point;
-             point = find_good_for_robot(i, &direction);
+        if(robots[i].goods == 0)
+        {
+            /// 未携带货物，且不在货物点
+            ///  判断是否在货物点
+            Point point;
+            point = find_good_for_robot(i, &direction);
 
-             if(point.operator==(robotPoint))
-             {
-                 operation.objector = 0;
-                 operation.command = 1;
-                 operation.id = i;
-                 operations.push_back(operation);
-                 continue;
-             }
+            if(point == robotPoint)
+            {
+                is_good[point.x][point.y] = false;
+                operation.objector = 0;
+                operation.command = 1;
+                operation.id = i;
+                operations.push_back(operation);
+                continue;
+            }
 
-             /// 货物坐标
+            /// 货物坐标
 
 //             cerr << "found good for robot" << endl;
-             /// 塞入operation
+            /// 塞入operation
 
-             operation.id = i;
-             operation.objector = 0;
-             operation.command = 0;
-             operation.optionArg = direction;
-             if(direction < 0 || direction > 3)
+            operation.id = i;
+            operation.objector = 0;
+            operation.command = 0;
+            operation.optionArg = direction;
+            if(direction < 0 || direction > 3)
+               continue;
+            operations.push_back(operation);
+
+        }
+        else if(robots[i].goods == 1)
+        {
+            /// 携带货物，且不在港口点
+            ///  判断是否在berth
+
+            Point point;
+            point = find_berth_for_robot(i, &direction);
+
+            if(point == robotPoint)
+            {
+                operation.objector = 0;
+                operation.id = i;
+                operation.command = 2;
+                operations.push_back(operation);
+
                 continue;
-             operations.push_back(operation);
+            }
+            if(direction > 3)
+            {
+                continue;
+            }
 
-         }
+            operation.id = i;
+            operation.objector = 0;
+            operation.command = 0;
+            operation.optionArg = direction;
 
-         if(robots[i].goods == 1)
-         {
-             /// 携带货物，且不在港口点
-             ///  判断是否在berth
-
-             Point point;
-             point = find_berth_for_robot(i, &direction);
-
-             if(point.operator==(robotPoint))
-             {
-                 operation.objector = 0;
-                 operation.id = i;
-                 operation.command = 2;
-                 operations.push_back(operation);
-
-                 continue;
-             }
-             if(direction > 3)
-             {
-                 continue;
-             }
-
-             operation.id = i;
-             operation.objector = 0;
-             operation.command = 0;
-             operation.optionArg = direction;
-
-             operations.push_back(operation);
-         }
+            operations.push_back(operation);
+        }
     }
 }
