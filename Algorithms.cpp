@@ -73,6 +73,7 @@ struct StateRobot {
 Point find_good_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
+    memset(next_move, 0, sizeof(next_move));
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
@@ -87,7 +88,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         int x = now.x, y = now.y;
         if(visited[x][y]) continue;
         // cerr << "visiting " << x << ' ' << y << endl;
-        if(visited[x][y]) continue;
+        // if(visited[x][y]) continue;
         visited[x][y] = true;
         // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
         // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
@@ -127,12 +128,16 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= n; j++) {
             if(!is_good[i][j]) continue;
+            cerr << "found good " << i << ' ' << j << endl;
+            // exit(0);
             if(step[i][j] < min_steps) {
                 min_steps = step[i][j];
                 good_pos = {i, j};
             }
         }
     }
+    cerr << "found best good" << endl;
+    cerr << "generating path to good" << endl;
 
     // 在路径中没有找到货物
     if(min_steps == INT_MAX) {
@@ -143,12 +148,15 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
     while(now != robot_pos) {
+        // cerr << now.x << ' ' << now.y << endl;
         passing_time[now.x][now.y].insert(step[now.x][now.y]);
         now = from[now.x][now.y];
     }
     passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
 
     *nextMove = next_move[robot.x][robot.y];
+
+    cerr << "done generating path" << endl;
 
     return good_pos;
 }

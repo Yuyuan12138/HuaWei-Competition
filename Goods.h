@@ -4,8 +4,7 @@
 #include <queue>
 #include "Variation.h"
 #include "Map.h"
-
-inline constexpr int expire_time = 1000;            // 货物的停留的时间
+#include <iostream>
 
 /* 货物结构体 */
 struct Good {
@@ -13,7 +12,7 @@ struct Good {
     int money;                                      // 货物金额
     int expires_at;                                 // 货物消失的时间戳
     Good() {}
-    Good(int x, int y, int money, int now = ::now) : x(x), y(y), money(money), expires_at(now + expire_time) {}
+    Good(int x, int y, int money, int now = ::now) : x(x), y(y), money(money), expires_at(now + LIFE_OF_GOOD) {}
     bool operator<(const Good& rhs) const {
         return expires_at > rhs.expires_at;
     }
