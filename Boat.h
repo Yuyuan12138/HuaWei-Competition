@@ -24,8 +24,7 @@ inline int boat_capacity[boat_num];       /// 船承载的货物容量
  * */
 struct Boat
 {
-    int num_goods;
-    int num;
+    int num_goods;              /// 当前所含有的货物数量
     int capacity;               // 船的容积
     int pos;                    // 船当前所在港口
     int status;                 // 船的状态
@@ -33,14 +32,9 @@ struct Boat
 
 void boatController();
 
+void find_berth_for_boat(int id);
 
-/// 给船只找寻港口
-/**
- * @brief 给船只找寻港口
- * @param 传入船只结构体
- * @return berth_id 返回泊位id
- * @note 判断的基准是，找寻价值最高的港口点，其实可以提前计算
- * */
-void find_berth_for_boat(Boat boat_now, int * berth_id);
+bool calv_cmp(Berth a, Berth b);
+
 
 #endif //CODECRAFTSDK_BOAT_H

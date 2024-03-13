@@ -3,53 +3,88 @@
 //
 
 #include "Boat.h"
+
 /**
  * @version 0.0.2 boat.cpp
- *
+ *  @brief 实现船的控制逻辑
  * */
 void boatController()
 {
-    /// 遍历每一艘船
-    for(int id = 0; id < 5; id++)
-    {
-        /// 如果船处于移动中，那么不给他发出指令
-        Boat boat_now = boat[id];
-        int berth_id = -1;
-        if(boat_now.status == 0) continue;
+    // todo 0 和 2 窗台的算法优化
+    /*! 通过status判断目前船的行动状态
+     * 如果是0，则是运输中，则不管
+     * 如果是1，则是在装货或者虚拟点
+     * 如果是2，则是在泊位外等待，不管
+     * 遍历每一艘船
+     * */
+     for(int i = 0; i < boat_num; i++)
+     {
+         if(boat[i].status == 0) continue;
+         if(boat[i].status == 1) continue;
 
-        /// 判断所处位置
-        if(boat_now.status == 1)
-        {
-            /// 如果在虚拟点
-            if(boat_now.pos == -1)
-            {
-                /// 寻找一个价值最高并且为空的港口过去
+         /// 如果在虚拟点，则寻找价值最高的那个点
+         if(boat[i].pos == -1)
+         {
+            find_berth_for_boat(i);
+         }
 
-            }
+         /// todo 如果不在虚拟点
+         if(boat[i].pos != -1)
+         {
+            /*! 判断是否要开走
+             *  todo 如果要停留，那么就停留, 并且更新状态
+             *  todo 否则离开
+             * */
+             if(boat[i].num_goods >= boat[i].capacity ||
+                15000 - now <= berths[boat[i].pos].transport_time ||
+                     (boat[i].num_goods != 0 && berths[boat[i].pos].get_good_count() == 0)
+                     )
+             {
+                 /// 离开
+                 Operation operation{};
+                 operation.id = i;
+                 operation.objector = 1;
+                 operation.command = 1;
+                 operations.push_back(operation);
+                 continue;
+             }
+             int temp = min(berths[boat[i].pos].loading_speed, berths[boat[i].pos].get_good_count());
+             boat[i].num_goods += min(berths[boat[i].pos].loading_speed, berths[boat[i].pos].get_good_count());
+             for(int _ = 0; _ < temp; _++)
+             {
+                 berths[boat[i].pos].remove_good();
+             }
 
-            /// 如果不在虚拟点
-            if(boat_now.pos != -1)
-            {
 
-            }
+         }
 
-        }
+     }
 
-        /// TODO：泊位外等待船只逻辑
-        if(boat_now.status == 2) continue;
-    }
 }
 
-
-void find_berth_for_boat(Boat boat_now, int * berth_id)
+void find_berth_for_boat(int id)
 {
-    sort_highest_value_vector();
-    std::sort(highest_value_vector.begin(), highest_value_vector.end(), cmp_only_used_);
+    std::vector<Berth> calv;
+    for(int i = 0; i < berth_num;i++)
+    {
+        /// 如果没有船则塞入calv
+        if(berths[i].num_boatStore == 0)
+        {
+            calv.push_back(berths[i]);
+        }
+    }
+    /// 由于为港口数量大于船只数量，不用考虑这种情况
+    std::sort(calv.begin(), calv.end(), calv_cmp);
+    Operation operation{};
+    operation.id = id, operation.command = 0, operation.objector = 1, operation.optionArg = calv.back().id;
+    operations.push_back(operation);
+}
 
-//    for(int i = 1; i < berth_num; i++)
-//    {
-//        berths[i]
-//    }
+bool calv_cmp(Berth a, Berth b)
+{
+    int value_a = a.get_value_sum() / ((a.loading_speed - 1 + a.get_good_count()) / a.loading_speed + a.transport_time),
+        value_b = b.get_value_sum() / ((b.loading_speed - 1 + b.get_good_count()) / b.loading_speed + b.transport_time);
+    return value_a < value_b;
 }
 
 /**

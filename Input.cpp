@@ -39,7 +39,6 @@ int Input()
     {
         /// 读取轮船状态
         cin >> boat[i].status >> boat[i].pos;
-        boat[i].num = i;
     }
 
     char okk[100];

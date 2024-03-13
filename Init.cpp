@@ -13,6 +13,7 @@ void Init()
     {
         int id;
         scanf("%d", &id);
+        berths[id].id = i;
         scanf("%d%d%d%d", &berths[id].x, &berths[id].y, &berths[id].transport_time, &berths[id].loading_speed);
     }
 

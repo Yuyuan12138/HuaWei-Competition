@@ -14,6 +14,7 @@
  * */
 struct Berth
 {
+    int id;                             /*! 港口唯一标识符*/
     int x;                              /*! 港口x坐标 */
     int y;                              /*! 港口y坐标 */
     int transport_time;                 /*! 港口到虚拟点的时间 */
@@ -45,13 +46,7 @@ struct Berth
     int get_single_value();
 } inline berths[berth_num + 10];
 
-inline std::vector<Berth> highest_value_vector;
-/**
- * @brief 将港口的价值排序，由低到高，注意清空
- * */
-void sort_highest_value_vector();
 
-bool cmp_only_used_(Berth a, Berth b);
 
 
 #endif //CODECRAFTSDK_BERTH_H
