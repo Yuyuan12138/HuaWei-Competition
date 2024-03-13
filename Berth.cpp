@@ -47,7 +47,21 @@ int Berth::get_good_count() {
     return good_values.size();
 }
 
-// TODO
+void sort_highest_value_vector()
+{
+    highest_value_vector.clear();
+    for(int i = 0; i < berth_num; i++ )
+    {
+        highest_value_vector.push_back(berths[i]);
+    }
+}
+
+bool cmp_only_used_(Berth a, Berth b)
+{
+    int value_a = a.get_value_sum() / a.loading_speed + a.transport_time;
+    int value_b = b.get_value_sum() / b.loading_speed + b.transport_time;
+    return value_a < value_b;
+}
 //int Berth::get_single_value() {
 //    if(good_values.empty())
 //    {

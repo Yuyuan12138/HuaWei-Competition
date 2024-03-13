@@ -32,4 +32,15 @@ struct Boat
 } inline boat[boat_num];
 
 void boatController();
+
+
+/// 给船只找寻港口
+/**
+ * @brief 给船只找寻港口
+ * @param 传入船只结构体
+ * @return berth_id 返回泊位id
+ * @note 判断的基准是，找寻价值最高的港口点，其实可以提前计算
+ * */
+void find_berth_for_boat(Boat boat_now, int * berth_id);
+
 #endif //CODECRAFTSDK_BOAT_H

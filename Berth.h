@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include <set>
 #include <queue>
+#include <algorithm>
 
 /**
  * @brief 港口结构体
@@ -43,4 +44,14 @@ struct Berth
 
     int get_single_value();
 } inline berths[berth_num + 10];
+
+inline std::vector<Berth> highest_value_vector;
+/**
+ * @brief 将港口的价值排序，由低到高，注意清空
+ * */
+void sort_highest_value_vector();
+
+bool cmp_only_used_(Berth a, Berth b);
+
+
 #endif //CODECRAFTSDK_BERTH_H
