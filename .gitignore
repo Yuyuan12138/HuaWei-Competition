@@ -9,3 +9,4 @@ Makefile
 main
 make.sh
 \.github/
+*.zip

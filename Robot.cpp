@@ -10,6 +10,7 @@ void robotController()
         for(int j = 1; j <= 200; j++)
             passing_time[i][j].clear();
     }
+
     for(int i = 0; i < robot_num; i++)
     {
         /// 处于恢复状态，则不操作

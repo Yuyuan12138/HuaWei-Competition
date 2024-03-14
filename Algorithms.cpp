@@ -74,6 +74,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
     memset(next_move, 0, sizeof(next_move));
+    memset(from, 0, sizeof(from));
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
@@ -81,13 +82,18 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
     step[robot.x][robot.y] = 0;
+    // visited[robot.x][robot.y] = true;
 
     while(!q.empty()) {
         auto now = q.top(); q.pop();
 
         int x = now.x, y = now.y;
+        // cerr << "visiting " << x << ' ' << y << ' ' << from[x][y].x << ' ' << from[x][y].y << endl;
+        // if(x == 110 && y == 75 && from[x][y] == Point{109, 75}) {
+        //     sleep(2);
+        //     exit(0);
+        // }
         if(visited[x][y]) continue;
-        // cerr << "visiting " << x << ' ' << y << endl;
         // if(visited[x][y]) continue;
         visited[x][y] = true;
         // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
@@ -128,7 +134,8 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= n; j++) {
             if(!is_good[i][j]) continue;
-            cerr << "found good " << i << ' ' << j << endl;
+            if(!visited[i][j]) continue;    // 如果机器人无法到达则跳过
+            // cerr << "found good " << i << ' ' << j << endl;
             // exit(0);
             if(step[i][j] < min_steps) {
                 min_steps = step[i][j];
@@ -136,19 +143,26 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
             }
         }
     }
-    cerr << "found best good" << endl;
-    cerr << "generating path to good" << endl;
+    // cerr << "found best good" << endl;
+    // cerr << "generating path to good" << endl;
 
     // 在路径中没有找到货物
     if(min_steps == INT_MAX) {
+        // cerr << "cannot find good in path, returning 114514" << endl;
         *nextMove = 114514;
         return {-1, -1};
     }
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
+    // int ct = 0;
     while(now != robot_pos) {
-        cerr << now.x << ' ' << now.y << endl;
+        // ct ++;
+        // if(ct > 1000) {
+        //     sleep(2);
+        //     exit(0);
+        // }
+        // cerr << now.x << ' ' << now.y << endl;
         passing_time[now.x][now.y].insert(step[now.x][now.y]);
         now = from[now.x][now.y];
     }
@@ -156,7 +170,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 
     *nextMove = next_move[robot.x][robot.y];
 
-    cerr << "done generating path" << endl;
+    // cerr << "done generating path" << endl;
 
     return good_pos;
 }
@@ -168,18 +182,26 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 Point find_berth_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
+    memset(next_move, 0, sizeof(next_move));
+    for (int i = 1; i <= 200; i++) {
+        for (int j = 1; j <= 200; j++) {
+            from[i][j] = {0, 0};
+        }
+    }
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
 
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
+    step[robot.x][robot.y] = 0;
     while(!q.empty()) {
         auto now = q.top(); q.pop();
+
         int x = now.x, y = now.y;
         visited[x][y] = true;
         if(step[x][y] < now.step) continue;
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 4; i++) {
             int dx = x + to[i][0],
                 dy = y + to[i][1],
                 dstep = now.step + 1;
@@ -202,11 +224,19 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
     for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= n; j++) {
             if(ch[i][j] != 'B') continue;       // 如果不是港口则跳过
+            if(!visited[i][j]) continue;
             if(step[i][j] < min_steps) {
                 min_steps = step[i][j];
                 berth_pos = {i, j};
             }
         }
+    }
+
+    // 在路径中没有找到港口
+    if(min_steps == INT_MAX) {
+        // cerr << "cannot find berth in path, returning 114514" << endl;
+        *nextMove = 114514;
+        return {-1, -1};
     }
 
     // 根据最优货物的坐标寻找来时路径

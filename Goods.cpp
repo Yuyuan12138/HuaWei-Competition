@@ -5,7 +5,7 @@ int Goods::remove_expired(int time = now) {
     while(!q.empty() && q.top().expires_at <= time) {
         auto& good = q.top();
         is_good[good.x][good.y] = false;
-        cerr << "removing " << good.x << ' ' << good.y << endl;
+        // cerr << "removing " << good.x << ' ' << good.y << endl;
         q.pop();
         removed_count++;
     }
@@ -25,7 +25,7 @@ int Goods::remove_on_map(int x, int y) {
 void Goods::add(Good good) {
     q.push(good);
     is_good[good.x][good.y] = true;
-    cerr << "adding " << good.x << ' ' << good.y << endl;
+    // cerr << "adding " << good.x << ' ' << good.y << endl;
     good_money[good.x][good.y] = good.money;
 }
 
