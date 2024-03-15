@@ -8,6 +8,7 @@
 #include <set>
 #include <queue>
 #include <algorithm>
+#include <iostream>
 
 /**
  * @brief 港口结构体
@@ -46,7 +47,7 @@ struct Berth
     int get_single_value();
 } inline berths[berth_num + 10];
 
-
+std::istream& operator>>(std::istream& is, Berth& rhs);
 
 
 #endif //CODECRAFTSDK_BERTH_H

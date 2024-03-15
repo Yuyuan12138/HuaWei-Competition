@@ -11,6 +11,7 @@
 #include "Boat.h"
 #include "Berth.h"
 #include "Map.h"
+#include "fastio.h"
 
 
 /**

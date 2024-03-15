@@ -6,12 +6,18 @@
 #define CODECRAFTSDK_CONTROLLER_H
 #include <vector>
 #include "Algorithms.h"
+
 struct Operation{
     int objector;    /// 对象指代：0, robot. 1, boat.
     int command;
     int id;
     int optionArg;
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Operation& obj) {
+    os << obj.objector << ' ' << obj.command << ' ' << obj.id << ' ' << obj.optionArg;
+    return os;
+}
 
 /**
  * @brief 总操作结构体vector
@@ -27,6 +33,6 @@ struct Operation{
 inline std::vector<Operation> operations;
 
 /// todo: 对数据进行检查。
-void controller();
+// void controller();
 
 #endif //CODECRAFTSDK_CONTROLLER_H

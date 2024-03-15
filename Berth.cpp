@@ -26,6 +26,11 @@ int Berth::remove_good() {
     }
 }
 
+std::istream& operator>>(std::istream& is, Berth& rhs) {
+    is >> rhs.x >> rhs.y >> rhs.transport_time >> rhs.loading_speed;
+    return is;
+}
+
 //int Berth::remove_good(int value) {
 ////    auto it = good_values.top(value);
 ////    if(it == good_values.end())
