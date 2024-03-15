@@ -38,7 +38,7 @@ int Input()
     for(int i = 0; i < 5; i ++)
     {
         /// 读取轮船状态
-        cin >> boat[i].status >> boat[i].pos;
+        cin >> boats[i].status >> boats[i].pos;
     }
 
     char okk[100];

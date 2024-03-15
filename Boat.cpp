@@ -19,25 +19,25 @@ void boatController()
      * */
      for(int i = 0; i < boat_num; i++)
      {
-         if(boat[i].status == 0) continue;
-         if(boat[i].status == 1) continue;
+         if(boats[i].status == 0) continue;
+         if(boats[i].status == 1) continue;
 
          /// 如果在虚拟点，则寻找价值最高的那个点
-         if(boat[i].pos == -1)
+         if(boats[i].pos == -1)
          {
             find_berth_for_boat(i);
          }
 
          /// todo 如果不在虚拟点
-         if(boat[i].pos != -1)
+         if(boats[i].pos != -1)
          {
             /*! 判断是否要开走
              *  todo 如果要停留，那么就停留, 并且更新状态
              *  todo 否则离开
              * */
-             if(boat[i].num_goods >= boat[i].capacity ||
-                15000 - now <= berths[boat[i].pos].transport_time ||
-                     (boat[i].num_goods != 0 && berths[boat[i].pos].get_good_count() == 0)
+             if(boats[i].num_goods >= boats[i].capacity ||
+                15000 - now <= berths[boats[i].pos].transport_time ||
+                     (boats[i].num_goods != 0 && berths[boats[i].pos].get_good_count() == 0)
                      )
              {
                  /// 离开
@@ -48,11 +48,11 @@ void boatController()
                  operations.push_back(operation);
                  continue;
              }
-             int temp = min(berths[boat[i].pos].loading_speed, berths[boat[i].pos].get_good_count());
-             boat[i].num_goods += temp;
+             int temp = min(berths[boats[i].pos].loading_speed, berths[boats[i].pos].get_good_count());
+             boats[i].num_goods += temp;
              for(int _ = 0; _ < temp; _++)
              {
-                 berths[boat[i].pos].remove_good();
+                 berths[boats[i].pos].remove_good();
              }
 
 
@@ -95,71 +95,71 @@ bool calv_cmp(Berth a, Berth b)
 //    ///  每个船所装的货物数量要自更新
 //    for(int i = 0; i < 5; i++)
 //    {
-//        if(boat[i].status == 0)
+//        if(boats[i].status == 0)
 //        {
-//            boat[i].num_goods = 0;
+//            boats[i].num_goods = 0;
 //        }   /// 如果船处于运输中，则不予理会
 //
-//        if(boat[i].status == 1)
+//        if(boats[i].status == 1)
 //        {
 //            Operation boat_operate{};
 //            boat_operate.objector = 1;
 //            boat_operate.command = 0;
 //            boat_operate.id = i;
 //            boat_operate.optionArg = i;
-////            berths[boat[i].pos].num_boatStore -= 1;
+////            berths[boats[i].pos].num_boatStore -= 1;
 //            operations.push_back(boat_operate);
 ////            /// 判断是否在装货点
 ////            /// 如果不为 -1 则在装货点
-////            if(boat[i].pos != -1)
+////            if(boats[i].pos != -1)
 ////            {
 ////                /// 在装货点
 ////                /// 满载
-////                if(boat[i].num_goods >= boat[i].capacity)
+////                if(boats[i].num_goods >= boats[i].capacity)
 ////                {
 ////                    /// 去往虚拟点
 ////                    Operation boat_operate{};
 ////                    boat_operate.objector = 1;
 ////                    boat_operate.command = 1;
 ////                    boat_operate.id = i;
-////                    berths[boat[i].pos].num_boatStore -= 1;
+////                    berths[boats[i].pos].num_boatStore -= 1;
 ////                    operations.push_back(boat_operate);
 ////                }else{
 ////                    /// 不满载
 ////                    /// 获取当前港口需要到达 虚拟点的时间
-////                    if(berths[boat[i].pos].transport_time <= 15000 - now)
+////                    if(berths[boats[i].pos].transport_time <= 15000 - now)
 ////                    {
 ////                        /// 强制前往虚拟点
 ////                        Operation boat_operate{};
 ////                        boat_operate.objector = 1;
 ////                        boat_operate.command = 1;
 ////                        boat_operate.id = i;
-////                        berths[boat[i].pos].num_boatStore -= 1;
+////                        berths[boats[i].pos].num_boatStore -= 1;
 ////                        operations.push_back(boat_operate);
 ////                    }else{
 ////                        /// 判断是否还有货物
-////                        if(berths[boat[i].pos].get_good_count() <= 0 && boat[i].num_goods > 0)
+////                        if(berths[boats[i].pos].get_good_count() <= 0 && boats[i].num_goods > 0)
 ////                        {
 ////                            /// 没有货物，去往虚拟点 但船上有
 ////                            Operation boat_operate{};
 ////                            boat_operate.objector = 1;
 ////                            boat_operate.command = 1;
 ////                            boat_operate.id = i;
-////                            berths[boat[i].pos].num_boatStore -= 1;
-////                            boat[i].num_goods = 0;
+////                            berths[boats[i].pos].num_boatStore -= 1;
+////                            boats[i].num_goods = 0;
 ////                            operations.push_back(boat_operate);
 ////                        }else{
 ////                            /// 减去货物，还有货物，呆着
-////                            if(berths[boat[i].pos].get_good_count() > berths[boat[i].pos].loading_speed)
+////                            if(berths[boats[i].pos].get_good_count() > berths[boats[i].pos].loading_speed)
 ////                            {
-////                                boat[i].num_goods += berths[boat[i].pos].loading_speed;
+////                                boats[i].num_goods += berths[boats[i].pos].loading_speed;
 ////                            }else{
-////                                boat[i].num_goods += berths[boat[i].pos].get_good_count();
+////                                boats[i].num_goods += berths[boats[i].pos].get_good_count();
 ////                            }
 ////
-////                            for(int _ = 0; _ < berths[boat[i].pos].loading_speed; _++)
+////                            for(int _ = 0; _ < berths[boats[i].pos].loading_speed; _++)
 ////                            {
-////                                berths[boat[i].pos].remove_good();
+////                                berths[boats[i].pos].remove_good();
 ////                            }
 ////
 ////                            continue;
@@ -172,7 +172,7 @@ bool calv_cmp(Berth a, Berth b)
 ////                ///  计算最高价值的点
 ////                int max_value = 0;
 ////                int idx = 0;
-////                boat[i].num_goods = 0;
+////                boats[i].num_goods = 0;
 ////
 ////                /// 遍历每个berth， 首先保证没有船只在该港口
 ////                /// 然后寻找价值最高的那个映射
@@ -209,7 +209,7 @@ bool calv_cmp(Berth a, Berth b)
 //        }
 //
 //        ///  在泊位外等待（暂且不考虑）
-//        if(boat[i].status == 2)
+//        if(boats[i].status == 2)
 //        {
 //            continue;
 //        }

@@ -28,7 +28,7 @@ struct Boat
     int capacity;               // 船的容积
     int pos;                    // 船当前所在港口
     int status;                 // 船的状态
-} inline boat[boat_num];
+} inline boats[boat_num];
 
 void boatController();
 

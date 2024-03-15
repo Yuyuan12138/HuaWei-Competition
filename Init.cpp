@@ -19,7 +19,7 @@ void Init()
 
     for(int i = 0; i < boat_num;i++)
     {
-        scanf("%d", &boat[i].capacity);
+        scanf("%d", &boats[i].capacity);
     }
 
     char okk[100];
