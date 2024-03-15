@@ -35,6 +35,7 @@ void robotController()
             if(point == robotPoint)
             {
                 is_good[point.x][point.y] = false;
+                robots[i].goods = 1;
                 operation.objector = 0;
                 operation.command = 1;
                 operation.id = i;
@@ -66,6 +67,7 @@ void robotController()
 
             if(point == robotPoint)
             {
+                robots[i].goods = 0;
                 operation.objector = 0;
                 operation.id = i;
                 operation.command = 2;
