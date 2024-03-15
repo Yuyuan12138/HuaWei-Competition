@@ -2,7 +2,6 @@
 using namespace std;
 
 int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
-int next_move[N][N];                        // 每一个点决定向下移动的方向
 Point from[N][N];                           // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
 bool visited[N][N];
 int step[N][N];
@@ -73,7 +72,6 @@ struct StateRobot {
 Point find_good_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
-    memset(next_move, 0, sizeof(next_move));
     memset(from, 0, sizeof(from));
 
     Robot& robot = robots[robot_id];
@@ -115,7 +113,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
             if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
             // cerr << "step ok" << endl;
             from[dx][dy] = {x, y};
-            next_move[x][y] = i;
+            // next_move[x][y] = i;
             step[dx][dy] = dstep;
             // cerr << "equal " << dstep << ' ' << step[dx][dy] << endl;
             // cerr << "step[" << dx << "][" << dy << "] =" << step[dx][dy] << endl;
@@ -152,6 +150,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         *nextMove = 114514;
         return {-1, -1};
     }
+
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
@@ -164,11 +163,19 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         // }
         // cerr << now.x << ' ' << now.y << endl;
         passing_time[now.x][now.y].insert(step[now.x][now.y]);
+        if(from[now.x][now.y] == robot_pos) {
+            for(int i = 0; i < 4; i++) {
+                if(robot.x + to[i][0] == now.x && robot.y + to[i][1] == now.y) {
+                    *nextMove = i;
+                    break;
+                }
+            }
+        }
         now = from[now.x][now.y];
     }
     passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
 
-    *nextMove = next_move[robot.x][robot.y];
+    // *nextMove = next_move[robot.x][robot.y];
 
     // cerr << "done generating path" << endl;
 
@@ -182,7 +189,7 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 Point find_berth_for_robot(int robot_id, int * nextMove) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
-    memset(next_move, 0, sizeof(next_move));
+    memset(from, 0, sizeof(from));
     for (int i = 1; i <= 200; i++) {
         for (int j = 1; j <= 200; j++) {
             from[i][j] = {0, 0};
@@ -195,6 +202,7 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
     step[robot.x][robot.y] = 0;
+
     while(!q.empty()) {
         auto now = q.top(); q.pop();
 
@@ -211,7 +219,7 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
             from[dx][dy] = {x, y};
-            next_move[x][y] = i;
+            // next_move[x][y] = i;
             step[dx][dy] = dstep;
             q.push({dx, dy, dstep});
         }
@@ -239,16 +247,24 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
         return {-1, -1};
     }
 
-    // 根据最优货物的坐标寻找来时路径
+    // 根据最优港口的坐标寻找来时路径
     Point now = berth_pos;
     Point robot_pos = {robot.x, robot.y};
     while(now != robot_pos) {
         passing_time[now.x][now.y].insert(step[now.x][now.y]);
+        if(from[now.x][now.y] == robot_pos) {
+            for(int i = 0; i < 4; i++) {
+                if(robot.x + to[i][0] == now.x && robot.y + to[i][1] == now.y) {
+                    *nextMove = i;
+                    break;
+                }
+            }
+        }
         now = from[now.x][now.y];
     }
     passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
 
-    *nextMove = next_move[robot.x][robot.y];
+    // *nextMove = next_move[robot.x][robot.y];
 
     return berth_pos;
 }

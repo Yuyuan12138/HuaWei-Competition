@@ -8,7 +8,7 @@ void output()
 {
     for(auto &x: operations)
     {
-        cerr << x << endl;
+        // cerr << x << endl;
         /// 机器人控制
         if(x.objector == 0)
         {
