@@ -41,10 +41,7 @@ void boatController()
                      )
              {
                  /// 离开
-                 Operation operation{};
-                 operation.id = i;
-                 operation.objector = 1;
-                 operation.command = 1;
+                 Operation operation(Objector::boat, Command::go, i);
                  operations.push_back(operation);
                  continue;
              }
@@ -75,8 +72,8 @@ void find_berth_for_boat(int id)
     }
     /// 由于为港口数量大于船只数量，不用考虑这种情况
     std::sort(calv.begin(), calv.end(), calv_cmp);
-    Operation operation{};
-    operation.id = id, operation.command = 0, operation.objector = 1, operation.optionArg = calv.back().id;
+    Operation operation(Objector::boat, Command::ship, id, calv.back().id);
+    // operation.id = id, operation.command = 0, operation.objector = 1, operation.optionArg = calv.back().id;
     operations.push_back(operation);
 }
 

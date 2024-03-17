@@ -1,10 +1,11 @@
 #include "Algorithms.h"
+#pragma GCC optimize(2)
 using namespace std;
 
-int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
 Point from[N][N];                           // 在最优路径中每个点的来源位置，需要在搜索的过程中维护
 bool visited[N][N];
 int step[N][N];
+int from_move[N][N];
 
 inline bool check_coord(int x, int y) {
     if (x < 1 || x > n || y < 1 || y > n)
@@ -69,10 +70,15 @@ struct StateRobot {
 /// @param[in] robot_id 机器人编号
 /// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
 /// @return 选择的货物坐标
-Point find_good_for_robot(int robot_id, int * nextMove) {
+Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
+    cerr << "Finding good for robot " << robot_id << endl;
+    // auto start = std::chrono::high_resolution_clock::now();
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
     memset(from, 0, sizeof(from));
+    // auto end = std::chrono::high_resolution_clock::now();
+    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    // cerr << "BFS Time: " << duration << endl;
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
@@ -82,15 +88,13 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
     step[robot.x][robot.y] = 0;
     // visited[robot.x][robot.y] = true;
 
-    while(!q.empty()) {
-        auto now = q.top(); q.pop();
+    int tm = 0;
 
-        int x = now.x, y = now.y;
+    while(!q.empty()) {
+        const auto now = q.top(); q.pop();
+
+        const int x = now.x, y = now.y;
         // cerr << "visiting " << x << ' ' << y << ' ' << from[x][y].x << ' ' << from[x][y].y << endl;
-        // if(x == 110 && y == 75 && from[x][y] == Point{109, 75}) {
-        //     sleep(2);
-        //     exit(0);
-        // }
         if(visited[x][y]) continue;
         // if(visited[x][y]) continue;
         visited[x][y] = true;
@@ -98,25 +102,18 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
         // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 4; i++) {
-            int dx = x + to[i][0],
-                dy = y + to[i][1],
-                dstep = now.step + 1;
+            const int dx = x + to[i][0],
+                      dy = y + to[i][1],
+                      dstep = now.step + 1;
             // cerr << "d: " << dx << ' ' << dy << endl;
             if(!check_coord(dx, dy)) continue;
-            // cerr << "check coord" << endl;
-            if(ch[dx][dy] == '#') continue;
-            // cerr << "map ok" << endl;
             if(visited[dx][dy]) continue;
-            // cerr << "!visited" << endl;
+            if(ch[dx][dy] == '#') continue;
+            if(step[dx][dy] <= dstep) continue;                  // 步数大于当前步数，不可能是最优解
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
-            // cerr << "passing time ok" << endl;
-            if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
-            // cerr << "step ok" << endl;
             from[dx][dy] = {x, y};
             // next_move[x][y] = i;
             step[dx][dy] = dstep;
-            // cerr << "equal " << dstep << ' ' << step[dx][dy] << endl;
-            // cerr << "step[" << dx << "][" << dy << "] =" << step[dx][dy] << endl;
             q.push({dx, dy, dstep});
             // cerr << "Pushed: " << dx << ' ' << dy << ' ' << dstep << endl;
         }
@@ -146,38 +143,25 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 
     // 在路径中没有找到货物
     if(min_steps == INT_MAX) {
-        // cerr << "cannot find good in path, returning 114514" << endl;
-        *nextMove = 114514;
+        nextMoves.clear();
         return {-1, -1};
     }
 
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
-    // int ct = 0;
+    nextMoves.clear();
     while(now != robot_pos) {
-        // ct ++;
-        // if(ct > 1000) {
-        //     sleep(2);
-        //     exit(0);
-        // }
-        // cerr << now.x << ' ' << now.y << endl;
-        passing_time[now.x][now.y].insert(step[now.x][now.y]);
-        if(from[now.x][now.y] == robot_pos) {
-            for(int i = 0; i < 4; i++) {
-                if(robot.x + to[i][0] == now.x && robot.y + to[i][1] == now.y) {
-                    *nextMove = i;
-                    break;
-                }
-            }
-        }
+        nextMoves.push_back(from_move[now.x][now.y]);
         now = from[now.x][now.y];
     }
-    passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
 
-    // *nextMove = next_move[robot.x][robot.y];
-
-    // cerr << "done generating path" << endl;
+    // 将未来要访问的至多十个点标记在passing_time中
+    now = robot_pos;
+    for(int i = 0; i < min(10ul, nextMoves.size()); i++) {
+        passing_time[now.x][now.y].insert(i);
+        now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
+    }
 
     return good_pos;
 }
@@ -186,10 +170,12 @@ Point find_good_for_robot(int robot_id, int * nextMove) {
 /// @param[in] robot_id 机器人编号
 /// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
 /// @return 选择的港口坐标
-Point find_berth_for_robot(int robot_id, int * nextMove) {
+Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
+    cerr << "Finding berth for " << robot_id << endl;
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
     memset(from, 0, sizeof(from));
+    memset(from_move, 0, sizeof(from_move));
     for (int i = 1; i <= 200; i++) {
         for (int j = 1; j <= 200; j++) {
             from[i][j] = {0, 0};
@@ -204,22 +190,22 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
     step[robot.x][robot.y] = 0;
 
     while(!q.empty()) {
-        auto now = q.top(); q.pop();
+        const auto now = q.top(); q.pop();
 
-        int x = now.x, y = now.y;
+        const int x = now.x, y = now.y;
+        if(visited[x][y]) continue;
         visited[x][y] = true;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 4; i++) {
-            int dx = x + to[i][0],
-                dy = y + to[i][1],
-                dstep = now.step + 1;
+            const int dx = x + to[i][0],
+                      dy = y + to[i][1],
+                      dstep = now.step + 1;
             if(!check_coord(dx, dy)) continue;
-            if(ch[dx][dy] == '#') continue;
             if(visited[dx][dy]) continue;
+            if(ch[dx][dy] == '#') continue;
+            if(step[dx][dy] <= dstep) continue;                 // 步数大于当前步数，不可能是最优解
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
-            if(step[dx][dy] < dstep) continue;                  // 步数大于当前步数，不可能是最优解
             from[dx][dy] = {x, y};
-            // next_move[x][y] = i;
             step[dx][dy] = dstep;
             q.push({dx, dy, dstep});
         }
@@ -242,29 +228,24 @@ Point find_berth_for_robot(int robot_id, int * nextMove) {
 
     // 在路径中没有找到港口
     if(min_steps == INT_MAX) {
-        // cerr << "cannot find berth in path, returning 114514" << endl;
-        *nextMove = 114514;
+        nextMoves.clear();
         return {-1, -1};
     }
 
     // 根据最优港口的坐标寻找来时路径
     Point now = berth_pos;
     Point robot_pos = {robot.x, robot.y};
+    nextMoves.clear();
     while(now != robot_pos) {
-        passing_time[now.x][now.y].insert(step[now.x][now.y]);
-        if(from[now.x][now.y] == robot_pos) {
-            for(int i = 0; i < 4; i++) {
-                if(robot.x + to[i][0] == now.x && robot.y + to[i][1] == now.y) {
-                    *nextMove = i;
-                    break;
-                }
-            }
-        }
+        nextMoves.push_back(from_move[now.x][now.y]);
         now = from[now.x][now.y];
     }
-    passing_time[now.x][now.y].insert(step[now.x][now.y]);      // 此时点到达机器人位置，将时刻0的位置信息记录下来
 
-    // *nextMove = next_move[robot.x][robot.y];
+    now = robot_pos;
+    for(int i = 0; i < min(10ul, nextMoves.size()); i++) {
+        passing_time[now.x][now.y].insert(i);
+        now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
+    }
 
     return berth_pos;
 }

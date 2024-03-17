@@ -6,6 +6,9 @@
 
 void robotController()
 {
+    static vector<int> nextMoves;
+    static int now_idx = 0;
+
     for(int i = 1; i <= 200; i++) {
         for(int j = 1; j <= 200; j++)
             passing_time[i][j].clear();
@@ -13,79 +16,52 @@ void robotController()
 
     for(int i = 0; i < robot_num; i++)
     {
+        Robot& robot = robots[i];
         /// 处于恢复状态，则不操作
-        if(robots[i].status == 0) continue;
-        /**
-         * @brief 分类机器人状态并且进行操作
-         * */
-        int direction = 0;
+        if(robot.status == 0) continue;
+        /// 分类机器人状态并且进行操作
 
-        /// 机器人坐标
-        Point robotPoint;
-        Operation operation{};
-        robotPoint.x = robots[i].x, robotPoint.y = robots[i].y;
-
-        if(robots[i].goods == 0)
+        if(robot.goods == 0)
         {
             /// 未携带货物，且不在货物点
             ///  判断是否在货物点
-            Point point;
-            point = find_good_for_robot(i, &direction);
-
-            if(point == robotPoint)
+            if(is_good[robot.x][robot.y])
             {
-                is_good[point.x][point.y] = false;
-                robots[i].goods = 1;
-                operation.objector = 0;
-                operation.command = 1;
-                operation.id = i;
+                cerr << "picking good at " << robot.x << ' ' << robot.y << endl;
+                is_good[robot.x][robot.y] = false;
+                robot.goods = 1;
+
+                Operation operation(Objector::robot, Command::get, i);
                 operations.push_back(operation);
-                continue;
+            } else {
+                if(now_idx >= 10 || now_idx == nextMoves.size() - 1) {
+                    find_good_for_robot(i, nextMoves);
+                }
+                if(nextMoves.empty())
+                    continue;
+
+                Operation operation(Objector::robot, Command::move, i, nextMoves[now_idx++]);
+                operations.push_back(operation);
             }
-
-            /// 货物坐标
-
-//             cerr << "found good for robot" << endl;
-            /// 塞入operation
-
-            operation.id = i;
-            operation.objector = 0;
-            operation.command = 0;
-            operation.optionArg = direction;
-            if(direction < 0 || direction > 3)
-               continue;
-            operations.push_back(operation);
-
         }
-        else if(robots[i].goods == 1)
+        else if(robot.goods == 1)
         {
             /// 携带货物，且不在港口点
             ///  判断是否在berth
-
-            Point point;
-            point = find_berth_for_robot(i, &direction);
-
-            if(point == robotPoint)
+            if(ch[robot.x][robot.y] == 'B')
             {
-                robots[i].goods = 0;
-                operation.objector = 0;
-                operation.id = i;
-                operation.command = 2;
+                robot.goods = 0;
+                Operation operation(Objector::robot, Command::pull, i);
                 operations.push_back(operation);
+            } else {
+                if(now_idx >= 10 || now_idx == nextMoves.size() - 1) {
+                    find_berth_for_robot(i, nextMoves);
+                }
 
-                continue;
+                Operation operation(Objector::robot, Command::move, i, nextMoves[now_idx++]);
+                operations.push_back(operation);
             }
-            if(direction > 3)
-            {
-                continue;
-            }
 
-            operation.id = i;
-            operation.objector = 0;
-            operation.command = 0;
-            operation.optionArg = direction;
-
-            operations.push_back(operation);
         }
     }
 }

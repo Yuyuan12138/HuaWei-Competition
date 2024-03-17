@@ -6,11 +6,14 @@
 #include <vector>
 #include <cstring>
 #include <climits>
+#include <chrono>
 
 #include "Map.h"
 #include "Robot.h"
 #include "Goods.h"
 #include "Berth.h"
+
+inline int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
 
 /**
  * @brief 初始化结束后进行dfs，将地图划分为若干块
@@ -23,8 +26,8 @@ void split_areas();
  * @param[in] robot_id 机器人编号
  * @return 选取的港口编号。同时记录当前机器人的路径至passing_time变量
 */
-Point find_good_for_robot(int robot_id, int * nextMove);
+Point find_good_for_robot(int robot_id, vector<int>& nextMoves);
 
-Point find_berth_for_robot(int robot_id, int * nextMove);
+Point find_berth_for_robot(int robot_id, vector<int> &nextMoves);
 
 #endif

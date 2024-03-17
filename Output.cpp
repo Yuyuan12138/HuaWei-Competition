@@ -10,19 +10,19 @@ void output()
     {
         // cerr << x << endl;
         /// 机器人控制
-        if(x.objector == 0)
+        if(x.objector == Objector::robot)
         {
-            if(x.command == 0)
+            if(x.command == Command::move)
             {
                 std::cout << "move " << x.id << " " << x.optionArg << std::endl;
                 std::cerr << "move " << x.id << " " << x.optionArg << std::endl;
             }
-            else if(x.command == 1)
+            else if(x.command == Command::get)
             {
                 std::cout << "get " << x.id << std::endl;
                 std::cerr << "get " << x.id << std::endl;
             }
-            else if(x.command == 2)
+            else if(x.command == Command::pull)
             {
                 std::cout << "pull " << x.id << std::endl;
                 std::cerr << "pull " << x.id << std::endl;
@@ -30,14 +30,14 @@ void output()
         }
 
         /// 轮船控制
-        if(x.objector == 1)
+        if(x.objector == Objector::boat)
         {
-            if(x.command == 0)
+            if(x.command == Command::ship)
             {
                 std::cout << "ship " << x.id << " " << x.optionArg << std::endl;
                 std::cerr << "ship " << x.id << " " << x.optionArg << std::endl;
             }
-            else if(x.command == 1)
+            else if(x.command == Command::go)
             {
                 std::cout << "go " << x.id << std::endl;
                 std::cerr << "go " << x.id << std::endl;

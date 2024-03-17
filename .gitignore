@@ -10,3 +10,4 @@ main
 make.sh
 \.github/
 *.zip
+*.o

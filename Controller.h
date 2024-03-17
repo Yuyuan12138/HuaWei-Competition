@@ -7,11 +7,21 @@
 #include <vector>
 #include "Algorithms.h"
 
+enum Objector {
+    robot, boat
+};
+
+enum Command {
+    move, get, pull, ship, go
+};
+
 struct Operation{
-    int objector;    /// 对象指代：0, robot. 1, boat.
-    int command;
+    Objector objector;
+    Command command;
     int id;
     int optionArg;
+    Operation() {}
+    Operation(Objector objector, Command command, int id, int optionArg = 0) : objector(objector), command(command), id(id), optionArg(optionArg) {}
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Operation& obj) {

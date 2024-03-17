@@ -13,22 +13,23 @@ int main()
     for(int zhen = 1; zhen <= 15000; zhen ++)
     {
         cerr << "Reading input..." << endl;
+        // cerr << "local frame: " << zhen << ' ' << endl;
         int input_now = Input();
-        cerr << "1" << endl;
+        // cerr << "1" << endl;
 //        if(input_now > zhen) {
 //            continue;
 //        }
 
         robotController();
-        cerr << "2" << endl;
+        // cerr << "2" << endl;
 //        cerr << "robotController finished" << endl;
 
         boatController();
-        cerr << "3" << endl;
+        // cerr << "3" << endl;
 //        cerr << "boatController finished" << endl;
 
         output();
-        cerr << "4" << endl;
+        // cerr << "4" << endl;
 //        cerr << "output ok" << endl;
     }
 
