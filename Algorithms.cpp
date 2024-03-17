@@ -27,6 +27,30 @@ void split_areas_dfs(int x, int y, int area_idx) {
     }
 }
 
+void init_robot_flag() {
+    // 标记每个机器人的区域号
+    for(int i = 0; i < robot_num; i++) {
+        Robot& robot = robots[i];
+        int area = area_id[robot.x][robot.y];
+        robot_list_by_area[area].push_back(i);
+        robot.area = area;
+        // cerr << robot.x << ' ' << robot.y << ' ' << robot.area << endl;
+    }
+    
+    // 标记每个机器人的区域号
+    for(int i = 0; i < robot_num; i++) {
+        Robot& robot = robots[i];
+        robot.valid = false;
+        for(int j = 0; j < berth_num; j++) {
+            Berth& berth = berths[j];
+            if(robot.area == berth.area) {
+                robot.valid = true;
+                break;
+            }
+        }
+    }
+}
+
 void split_areas() {
     memset(visited, 0, sizeof(visited));
 
@@ -40,20 +64,13 @@ void split_areas() {
         }
     }
 
-    // 标记每个机器人的区域号
-    for(int i = 0; i < robot_num; i++) {
-        Robot& robot = robots[i];
-        int area = area_id[robot.x][robot.y];
-        robot_list_by_area[area].push_back(i);
-        robot.area = area;
-    }
-
     /// 标记每个港口的区域号
     for(int i = 0; i < berth_num; i++) {
         Berth& berth = berths[i];
         int area = area_id[berth.x][berth.y];
         berth_list_by_area[area].push_back(i);
         berth.area = area;
+        cerr << berth.x << ' ' << berth.y << ' ' << berth.area << endl;
     }
 }
 
@@ -76,6 +93,8 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
     memset(from, 0, sizeof(from));
+    memset(from_move, 0, sizeof(from_move));
+    nextMoves.clear();
     // auto end = std::chrono::high_resolution_clock::now();
     // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
     // cerr << "BFS Time: " << duration << endl;
@@ -86,7 +105,6 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
     // BFS过程
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
     step[robot.x][robot.y] = 0;
-    // visited[robot.x][robot.y] = true;
 
     int tm = 0;
 
@@ -112,7 +130,7 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
             if(step[dx][dy] <= dstep) continue;                  // 步数大于当前步数，不可能是最优解
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             from[dx][dy] = {x, y};
-            // next_move[x][y] = i;
+            from_move[dx][dy] = i;
             step[dx][dy] = dstep;
             q.push({dx, dy, dstep});
             // cerr << "Pushed: " << dx << ' ' << dy << ' ' << dstep << endl;
@@ -143,18 +161,20 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
 
     // 在路径中没有找到货物
     if(min_steps == INT_MAX) {
-        nextMoves.clear();
         return {-1, -1};
     }
 
     // 根据最优货物的坐标寻找来时路径
     Point now = good_pos;
     Point robot_pos = {robot.x, robot.y};
-    nextMoves.clear();
     while(now != robot_pos) {
         nextMoves.push_back(from_move[now.x][now.y]);
         now = from[now.x][now.y];
     }
+
+    // cerr << "got path" << endl;
+
+    nextMoves = vector<int>(nextMoves.crbegin(), nextMoves.crend());
 
     // 将未来要访问的至多十个点标记在passing_time中
     now = robot_pos;
@@ -176,11 +196,7 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
     memset(step, 0x3f, sizeof(step));
     memset(from, 0, sizeof(from));
     memset(from_move, 0, sizeof(from_move));
-    for (int i = 1; i <= 200; i++) {
-        for (int j = 1; j <= 200; j++) {
-            from[i][j] = {0, 0};
-        }
-    }
+    nextMoves.clear();
 
     Robot& robot = robots[robot_id];
     priority_queue<StateRobot> q;                               // BFS使用的优先队列
@@ -206,6 +222,7 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
             if(step[dx][dy] <= dstep) continue;                 // 步数大于当前步数，不可能是最优解
             if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             from[dx][dy] = {x, y};
+            from_move[dx][dy] = i;
             step[dx][dy] = dstep;
             q.push({dx, dy, dstep});
         }
@@ -228,18 +245,18 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
 
     // 在路径中没有找到港口
     if(min_steps == INT_MAX) {
-        nextMoves.clear();
         return {-1, -1};
     }
 
     // 根据最优港口的坐标寻找来时路径
     Point now = berth_pos;
     Point robot_pos = {robot.x, robot.y};
-    nextMoves.clear();
     while(now != robot_pos) {
         nextMoves.push_back(from_move[now.x][now.y]);
         now = from[now.x][now.y];
     }
+
+    nextMoves = vector<int>(nextMoves.crbegin(), nextMoves.crend());
 
     now = robot_pos;
     for(int i = 0; i < min(10ul, nextMoves.size()); i++) {

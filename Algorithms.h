@@ -21,6 +21,8 @@ inline int to[5][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}, {0, 0}};
 */
 void split_areas();
 
+void init_robot_flag();
+
 /**
  * @brief 给定机器人编号，选取距离其最近的港口编号
  * @param[in] robot_id 机器人编号

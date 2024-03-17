@@ -24,6 +24,7 @@ struct Robot{
     int id;
     int mbx, mby;
     int area;           // 机器人所属的连通块编号
+    bool valid = true;
     Robot() {}
     Robot(int startX, int startY) {
         x = startX;

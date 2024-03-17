@@ -15,6 +15,9 @@ int main()
         cerr << "Reading input..." << endl;
         // cerr << "local frame: " << zhen << ' ' << endl;
         int input_now = Input();
+        if(zhen == 1) {
+            init_robot_flag();
+        }
         // cerr << "1" << endl;
 //        if(input_now > zhen) {
 //            continue;
