@@ -71,7 +71,6 @@ void split_areas() {
         int area = area_id[berth.x][berth.y];
         berth_list_by_area[area].push_back(i);
         berth.area = area;
-        cerr << berth.x << ' ' << berth.y << ' ' << berth.area << endl;
     }
 }
 
