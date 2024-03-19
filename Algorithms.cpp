@@ -179,7 +179,8 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
 
     // 将未来要访问的至多十个点标记在passing_time中
     now = robot_pos;
-    for(int i = 0; i < min(20ul, nextMoves.size()); i++) {
+    size_t lim = 20;
+    for(int i = 0; i < min(lim, nextMoves.size()); i++) {
         passing_time[now.x][now.y].insert(i);
         now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
     }
@@ -268,7 +269,8 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
     nextMoves = vector<int>(nextMoves.crbegin(), nextMoves.crend());
 
     now = robot_pos;
-    for(int i = 0; i < min(20ul, nextMoves.size()); i++) {
+    size_t lim = 20;
+    for(int i = 0; i < min(lim, nextMoves.size()); i++) {
         passing_time[now.x][now.y].insert(i);
         now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
     }
