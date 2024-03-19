@@ -20,38 +20,38 @@ void boatController()
      for(int i = 0; i < boat_num; i++)
      {
          if(boats[i].status == 0) continue;
-         if(boats[i].status == 1) continue;
+         if(boats[i].status == 2) continue;
 
          /// 如果在虚拟点，则寻找价值最高的那个点
-         if(boats[i].pos == -1)
+         if(boats[i].pos < 0)
          {
-            find_berth_for_boat(i);
-         }
-
-         /// todo 如果不在虚拟点
-         if(boats[i].pos != -1)
-         {
-            /*! 判断是否要开走
-             *  todo 如果要停留，那么就停留, 并且更新状态
-             *  todo 否则离开
-             * */
-             if(boats[i].num_goods >= boats[i].capacity ||
-                15000 - now <= berths[boats[i].pos].transport_time ||
-                     (boats[i].num_goods != 0 && berths[boats[i].pos].get_good_count() == 0)
-                     )
+             for(int j = 0; j < berth_num; j++)
              {
-                 /// 离开
+                 if(berths[j].num_boatStore != 0) continue;
+                 cerr << "Berths：" << j << berths[j].get_good_count() << endl;
+                 if(berths[j].get_good_count() == 0) continue;
+                 Operation operation(Objector::boat, Command::ship, i, j);
+                 operations.push_back(operation);
+                 berths[j].num_boatStore += 1;
+             }
+         }else{
+             if(berths[boats[i].pos].transport_time >= 15000 - now - 45)
+             {
                  Operation operation(Objector::boat, Command::go, i);
                  operations.push_back(operation);
                  continue;
              }
-             int temp = min(berths[boats[i].pos].loading_speed, berths[boats[i].pos].get_good_count());
-             boats[i].num_goods += temp;
-             for(int _ = 0; _ < temp; _++)
+             if(berths[boats[i].pos].get_good_count() <= 0 && boats[i].num_goods != 0)
+             {
+                 Operation operation(Objector::boat, Command::go, i);
+                 operations.push_back(operation);
+                 continue;
+             }
+             int min_num = min(berths[boats[i].pos].loading_speed, berths[boats[i].pos].get_good_count());
+             for(int _ = 0; _ < min_num; _++)
              {
                  berths[boats[i].pos].remove_good();
              }
-
 
          }
 
@@ -59,30 +59,6 @@ void boatController()
 
 }
 
-void find_berth_for_boat(int id)
-{
-    std::vector<Berth> calv;
-    for(int i = 0; i < berth_num;i++)
-    {
-        /// 如果没有船则塞入calv
-        if(berths[i].num_boatStore == 0)
-        {
-            calv.push_back(berths[i]);
-        }
-    }
-    /// 由于为港口数量大于船只数量，不用考虑这种情况
-    std::sort(calv.begin(), calv.end(), calv_cmp);
-    Operation operation(Objector::boat, Command::ship, id, calv.back().id);
-    // operation.id = id, operation.command = 0, operation.objector = 1, operation.optionArg = calv.back().id;
-    operations.push_back(operation);
-}
-
-bool calv_cmp(Berth a, Berth b)
-{
-    int value_a = a.get_value_sum() / ((a.loading_speed - 1 + a.get_good_count()) / a.loading_speed + a.transport_time),
-        value_b = b.get_value_sum() / ((b.loading_speed - 1 + b.get_good_count()) / b.loading_speed + b.transport_time);
-    return value_a < value_b;
-}
 
 /**
  * @version 0.0.1 boat.cpp

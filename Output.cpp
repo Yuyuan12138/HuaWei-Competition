@@ -15,17 +15,14 @@ void output()
             if(x.command == Command::move)
             {
                 std::cout << "move " << x.id << " " << x.optionArg << std::endl;
-                std::cerr << "move " << x.id << " " << x.optionArg << std::endl;
             }
             else if(x.command == Command::get)
             {
                 std::cout << "get " << x.id << std::endl;
-                std::cerr << "get " << x.id << std::endl;
             }
             else if(x.command == Command::pull)
             {
                 std::cout << "pull " << x.id << std::endl;
-                std::cerr << "pull " << x.id << std::endl;
             }
         }
 
@@ -35,12 +32,10 @@ void output()
             if(x.command == Command::ship)
             {
                 std::cout << "ship " << x.id << " " << x.optionArg << std::endl;
-                std::cerr << "ship " << x.id << " " << x.optionArg << std::endl;
             }
             else if(x.command == Command::go)
             {
                 std::cout << "go " << x.id << std::endl;
-                std::cerr << "go " << x.id << std::endl;
             }
         }
         fflush(stdout);
@@ -48,6 +43,5 @@ void output()
     operations.clear();
 
     std::cout << "OK" << std::endl;
-    std::cerr << "OK" << std::endl;
     fflush(stdout);
 };
