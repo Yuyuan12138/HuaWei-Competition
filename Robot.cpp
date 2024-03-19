@@ -7,12 +7,12 @@
 void robotController()
 {
     static vector<int> nextMoves[10];
-    static int now_idx = 0;
+    static int now_idx[10] = {};
 
-    for(int i = 1; i <= 200; i++) {
-        for(int j = 1; j <= 200; j++)
-            passing_time[i][j].clear();
-    }
+    // for(int i = 1; i <= 200; i++) {
+    //     for(int j = 1; j <= 200; j++)
+    //         passing_time[i][j].clear();
+    // }
 
     for(int i = 0; i < robot_num; i++)
     {
@@ -37,16 +37,17 @@ void robotController()
                 Operation operation(Objector::robot, Command::get, i);
                 operations.push_back(operation);
             } else {
-                if(now_idx >= 10 || now_idx >= nextMoves[i].size() - 1 || nextMoves[i].empty()) {
+                if(now_idx[i] >= 10 || now_idx[i] > nextMoves[i].size() - 1 || nextMoves[i].empty()) {
                     find_good_for_robot(i, nextMoves[i]);
-                    now_idx = 0;
+                    now_idx[i] = 0;
+                    continue;
                 }
                 if(nextMoves[i].empty()) {
                     // cerr << "empty" << endl;
                     continue;
                 }
                 // cerr << now_idx << ' ' << nextMoves[i].size() << endl;
-                Operation operation(Objector::robot, Command::move, i, nextMoves[i][now_idx++]);
+                Operation operation(Objector::robot, Command::move, i, nextMoves[i][now_idx[i]++]);
                 operations.push_back(operation);
             }
         }
@@ -60,14 +61,15 @@ void robotController()
                 Operation operation(Objector::robot, Command::pull, i);
                 operations.push_back(operation);
             } else {
-                if(now_idx >= 10 || now_idx == nextMoves[i].size() - 1 || nextMoves[i].empty()) {
+                if(now_idx[i] >= 10 || now_idx[i] > nextMoves[i].size() - 1 || nextMoves[i].empty()) {
                     find_berth_for_robot(i, nextMoves[i]);
-                    now_idx = 0;
+                    now_idx[i] = 0;
+                    continue;
                 }
                 if(nextMoves[i].empty())
                     continue;
 
-                Operation operation(Objector::robot, Command::move, i, nextMoves[i][now_idx++]);
+                Operation operation(Objector::robot, Command::move, i, nextMoves[i][now_idx[i]++]);
                 operations.push_back(operation);
             }
 

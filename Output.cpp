@@ -48,5 +48,6 @@ void output()
     operations.clear();
 
     std::cout << "OK" << std::endl;
+    std::cerr << "OK" << std::endl;
     fflush(stdout);
 };

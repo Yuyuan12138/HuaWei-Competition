@@ -23,6 +23,7 @@ void split_areas_dfs(int x, int y, int area_idx) {
         if(!check_coord(dx, dy)) continue;
         if(visited[dx][dy]) continue;
         if(ch[dx][dy] == '#') continue;
+        // if(ch[dx][dy] == '*') continue;
         split_areas_dfs(dx, dy, area_idx);
     }
 }
@@ -88,7 +89,7 @@ struct StateRobot {
 /// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
 /// @return 选择的货物坐标
 Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
-    cerr << "Finding good for robot " << robot_id << endl;
+    // cerr << "Finding good for robot " << robot_id << endl;
     // auto start = std::chrono::high_resolution_clock::now();
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
@@ -106,7 +107,7 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
     q.push({robot.x, robot.y, 0});                              // 将初状态押进队列
     step[robot.x][robot.y] = 0;
 
-    int tm = 0;
+    // int tm = 0;
 
     while(!q.empty()) {
         const auto now = q.top(); q.pop();
@@ -126,9 +127,9 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
             // cerr << "d: " << dx << ' ' << dy << endl;
             if(!check_coord(dx, dy)) continue;
             if(visited[dx][dy]) continue;
-            if(ch[dx][dy] == '#') continue;
-            if(step[dx][dy] <= dstep) continue;                  // 步数大于当前步数，不可能是最优解
-            if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
+            if(ch[dx][dy] == '#' || ch[dx][dy] == '*') continue;
+            if(step[dx][dy] <= dstep) continue;                 // 步数大于当前步数，不可能是最优解
+            // if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             from[dx][dy] = {x, y};
             from_move[dx][dy] = i;
             step[dx][dy] = dstep;
@@ -178,10 +179,18 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
 
     // 将未来要访问的至多十个点标记在passing_time中
     now = robot_pos;
-    for(int i = 0; i < min(10ul, nextMoves.size()); i++) {
+    for(int i = 0; i < min(20ul, nextMoves.size()); i++) {
         passing_time[now.x][now.y].insert(i);
         now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
     }
+    
+    // cerr << "robot id: " << robot_id << endl;
+    // cerr << "x: " << robot.x << "; y: " << robot.y << endl;
+    // cerr << "good pos: " << good_pos.x << ' ' << good_pos.y << endl;
+    // cerr << "path: " << endl;
+    // for(auto i : nextMoves)
+    //     cerr << i << ' ';
+    // cerr << endl;
 
     return good_pos;
 }
@@ -191,7 +200,7 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
 /// @param[out] nextMove 输出变量，机器人决定下一步向前行进的方向（0-3含义见Output.cpp，4表示不动）
 /// @return 选择的港口坐标
 Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
-    cerr << "Finding berth for " << robot_id << endl;
+    // cerr << "Finding berth for " << robot_id << endl;
     memset(visited, 0, sizeof(visited));
     memset(step, 0x3f, sizeof(step));
     memset(from, 0, sizeof(from));
@@ -218,9 +227,9 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
                       dstep = now.step + 1;
             if(!check_coord(dx, dy)) continue;
             if(visited[dx][dy]) continue;
-            if(ch[dx][dy] == '#') continue;
+            if(ch[dx][dy] == '#' || ch[dx][dy] == '*') continue;
             if(step[dx][dy] <= dstep) continue;                 // 步数大于当前步数，不可能是最优解
-            if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
+            // if(passing_time[dx][dy].count(dstep)) continue;     // 可能发生碰撞则放弃
             from[dx][dy] = {x, y};
             from_move[dx][dy] = i;
             step[dx][dy] = dstep;
@@ -259,7 +268,7 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
     nextMoves = vector<int>(nextMoves.crbegin(), nextMoves.crend());
 
     now = robot_pos;
-    for(int i = 0; i < min(10ul, nextMoves.size()); i++) {
+    for(int i = 0; i < min(20ul, nextMoves.size()); i++) {
         passing_time[now.x][now.y].insert(i);
         now = {now.x + to[nextMoves[i]][0], now.y + to[nextMoves[i]][1]};
     }
