@@ -23,7 +23,7 @@ void boatController()
          if(boats[i].status == 2) continue;
 
          /// 如果在虚拟点，则寻找价值最高的那个点
-         if(boats[i].pos < 0)
+         if(boats[i].pos == -1)
          {
              for(int j = 0; j < berth_num; j++)
              {
