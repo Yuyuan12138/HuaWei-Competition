@@ -22,17 +22,17 @@ int main()
             fflush(stdout);
             continue;
         }
-        // cerr << "1" << endl;
+//         cerr << "1" << endl;
 //        if(input_now > zhen) {
 //            continue;
 //        }
 
         robotController();
-        // cerr << "2" << endl;
+         cerr << "2" << endl;
 //        cerr << "robotController finished" << endl;
 
         boatController();
-        // cerr << "3" << endl;
+         cerr << "3" << endl;
 //        cerr << "boatController finished" << endl;
 
         output();
