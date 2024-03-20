@@ -14,14 +14,18 @@ struct Good {
     Good() {}
     Good(int x, int y, int money, int now = ::now) : x(x), y(y), money(money), expires_at(now + LIFE_OF_GOOD) {}
     bool operator<(const Good& rhs) const {
-        return expires_at > rhs.expires_at;
+        if(x != rhs.x) {
+            return x < rhs.x;
+        }else{
+            return y < rhs.y;
+        }
     }
 };
 
 
 /* 货物列表结构体 */
 struct Goods {
-    std::priority_queue<Good> q;                    // 货物队列
+    set<Good> st;                    // 货物队列
 
     /**
      * @brief 给定当前时间戳，移除已过期的货物
@@ -55,7 +59,9 @@ struct Goods {
    /// @param x 货物的x坐标
    /// @param y 货物的y坐标
    /// @return 移除的货物数量
-   int remove_on_map(int x, int y);
+   int remove(int x, int y);
+
+   int remove(set<Good>::iterator good);
 } inline goods;
 
 inline bool is_good[N][N];          /// 每个节点是否为货物
