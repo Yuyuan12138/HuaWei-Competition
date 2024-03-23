@@ -28,7 +28,7 @@ void boatController()
              for(int j = 0; j < berth_num; j++)
              {
                  if(berths[j].num_boatStore != 0) continue;
-                 cerr << "Berths：" << j << berths[j].get_good_count() << endl;
+                //  cerr << "Berths: " << j << ' ' << berths[j].get_good_count() << endl;
                  if(berths[j].get_good_count() == 0) continue;
                  Operation operation(Objector::boat, Command::ship, i, j);
                  operations.push_back(operation);

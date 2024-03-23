@@ -22,6 +22,8 @@ int main()
             fflush(stdout);
             continue;
         }
+
+        // cerr << goods.size() << endl;
         // cerr << "1" << endl;
 //        if(input_now > zhen) {
 //            continue;

@@ -15,6 +15,7 @@ void Init()
         scanf("%d", &id);
         berths[id].id = id;
         scanf("%d%d%d%d", &berths[id].x, &berths[id].y, &berths[id].transport_time, &berths[id].loading_speed);
+        berths[id].x++; berths[id].y++;
     }
 
     for(int i = 0; i < boat_num;i++)

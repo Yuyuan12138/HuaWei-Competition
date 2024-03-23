@@ -116,6 +116,7 @@ Point find_good_for_robot(int robot_id, vector<int>& nextMoves) {
         if(visited[x][y]) continue;
         // if(visited[x][y]) continue;
         visited[x][y] = true;
+        if(is_good[x][y]) break;
         // cerr << x << ' ' << y << ' ' << step[x][y] << ' ' << now.step << endl;
         // cerr << "step[" << x << "][" << y << "]=" << step[x][y] << " " << endl;
         if(step[x][y] < now.step) continue;
@@ -219,6 +220,7 @@ Point find_berth_for_robot(int robot_id, vector<int> &nextMoves) {
 
         const int x = now.x, y = now.y;
         if(visited[x][y]) continue;
+        if(ch[x][y] == 'B') break;
         visited[x][y] = true;
         if(step[x][y] < now.step) continue;
         for(int i = 0; i < 4; i++) {

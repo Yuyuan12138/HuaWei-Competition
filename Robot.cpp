@@ -33,6 +33,7 @@ void robotController()
                 cerr << "picking good at " << robot.x << ' ' << robot.y << endl;
                 is_good[robot.x][robot.y] = false;
                 robot.goods = 1;
+                robot.good_money = good_money[robot.x][robot.y];
 
                 Operation operation(Objector::robot, Command::get, i);
                 operations.push_back(operation);
@@ -58,6 +59,16 @@ void robotController()
             if(ch[robot.x][robot.y] == 'B')
             {
                 robot.goods = 0;
+                int berth_id;
+                for(int i = 0; i < berth_num; i++) {
+                    Berth& berth = berths[i];
+                    // cerr << robot.x << ' ' << robot.y << ' ' << berth.x << ' ' << berth.y << endl;
+                    if(robot.x >= berth.x && robot.x <= berth.x+3 && robot.y >= berth.y && robot.y <= berth.y+3) {
+                        berth_id = i;
+                        break;
+                    }
+                }
+                berths[berth_id].add_good(robot.good_money);
                 Operation operation(Objector::robot, Command::pull, i);
                 operations.push_back(operation);
             } else {
