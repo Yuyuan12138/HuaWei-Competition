@@ -19,17 +19,23 @@ void boatController()
      * */
      for(int i = 0; i < boat_num; i++)
      {
+         cerr << boats[i].pos << endl;
+         fflush(stderr);
          if(boats[i].status == 0) continue;
          if(boats[i].status == 2) continue;
 
          /// 如果在虚拟点，则寻找价值最高的那个点
-         if(boats[i].pos < 0)
+
+         if(boats[i].pos == -1)
          {
              for(int j = 0; j < berth_num; j++)
              {
+                 cerr << "Berths: " << j << " " << berths[j].num_boatStore << endl;
                  if(berths[j].num_boatStore != 0) continue;
                 //  cerr << "Berths: " << j << ' ' << berths[j].get_good_count() << endl;
                  if(berths[j].get_good_count() == 0) continue;
+//                 cerr << "---------" << endl;
+
                  Operation operation(Objector::boat, Command::ship, i, j);
                  operations.push_back(operation);
                  berths[j].num_boatStore += 1;
